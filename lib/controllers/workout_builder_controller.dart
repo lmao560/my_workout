@@ -4,22 +4,19 @@ import '../models/models.dart';
 import '../repository/repository.dart';
 import '../services/id_services.dart';
 
-/// Manages the Create / Edit workout flow.
-///
-/// Holds a mutable draft that the UI builds incrementally.
-/// Call [save] to persist via the repository.
 class WorkoutBuilderController extends ChangeNotifier {
   WorkoutBuilderController({required WorkoutRepository repository})
       : _repository = repository;
 
   final WorkoutRepository _repository;
 
-  // ── Draft state ─────────────────────────────────────────────────────────────
+  // ── State ────────────────────────────────────────────────────────────────────
 
   String _name = '';
   String _description = '';
+  String? _editingId;
+  List<String> _existingNames = [];
   final List<Exercise> _exercises = [];
-
   bool _isSaving = false;
   String? _error;
 
@@ -30,28 +27,21 @@ class WorkoutBuilderController extends ChangeNotifier {
   List<Exercise> get exercises => List.unmodifiable(_exercises);
   bool get isSaving => _isSaving;
   String? get error => _error;
+
   bool get canSave =>
       _name.trim().isNotEmpty &&
           _exercises.length >= 3 &&
           nameError == null;
-  List<String> _existingNames = [];
 
-  void setExistingNames(List<String> names) {
-    _existingNames = names;
-  }
-
-// Validasi individual
   String? get nameError {
     if (_name.trim().isEmpty) return 'Nama workout tidak boleh kosong';
     if (_name.trim().length < 3) return 'Nama minimal 3 karakter';
+
     final isDuplicate = _existingNames
-        .where((n) => n.toLowerCase() == _name.trim().toLowerCase())
-        .isNotEmpty;
-    // Saat edit, exclude nama workout yang sedang diedit
-    if (isDuplicate && _editingId == null) return 'Nama workout sudah digunakan';
-    if (isDuplicate && _editingId != null) {
-      // cek apakah nama duplikat bukan milik diri sendiri
-      // (tidak perlu cek lebih lanjut jika nama tidak berubah)
+        .any((n) => n.toLowerCase() == _name.trim().toLowerCase());
+
+    if (isDuplicate && _editingId == null) {
+      return 'Nama workout sudah digunakan';
     }
     return null;
   }
@@ -63,7 +53,13 @@ class WorkoutBuilderController extends ChangeNotifier {
     return null;
   }
 
-  // ── Load existing workout for editing ────────────────────────────────────────
+  // ── Setup ────────────────────────────────────────────────────────────────────
+
+  void setExistingNames(List<String> names) {
+    _existingNames = names;
+  }
+
+  // ── Load ─────────────────────────────────────────────────────────────────────
 
   void loadForEdit(Workout workout) {
     _editingId = workout.id;
@@ -76,25 +72,18 @@ class WorkoutBuilderController extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? _editingId; // null = creating new
-
-  // ── Duplicate Workout ───────────────────────────────────────────────────────
-
   void loadForDuplicate(Workout workout) {
-    _editingId = null; // null = create new, bukan edit
+    _editingId = null;
     _name = '${workout.name} (Copy)';
     _description = workout.description ?? '';
     _exercises
       ..clear()
-      ..addAll(
-        // Generate ID baru untuk setiap exercise
-        workout.exercises.map((e) => e.copyWith(id: IdService.generate())),
-      );
+      ..addAll(workout.exercises.map((e) => e.copyWith(id: IdService.generate())));
     _error = null;
     notifyListeners();
   }
 
-  // ── Name / description ───────────────────────────────────────────────────────
+  // ── Field setters ─────────────────────────────────────────────────────────────
 
   void setName(String value) {
     _name = value;
@@ -106,7 +95,7 @@ class WorkoutBuilderController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ── Exercise management ──────────────────────────────────────────────────────
+  // ── Exercise management ───────────────────────────────────────────────────────
 
   void addExercise(Exercise exercise) {
     _exercises.add(exercise);
@@ -132,7 +121,15 @@ class WorkoutBuilderController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ── Persistence ──────────────────────────────────────────────────────────────
+  Exercise createBlankExercise() => Exercise(
+    id: IdService.generate(),
+    name: '',
+    type: ExerciseType.repetition,
+    sets: 3,
+    restTime: const Duration(seconds: 30),
+  );
+
+  // ── Persistence ───────────────────────────────────────────────────────────────
 
   Future<Workout?> save() async {
     if (!canSave) return null;
@@ -151,7 +148,6 @@ class WorkoutBuilderController extends ChangeNotifier {
         createdAt: now,
         updatedAt: _editingId != null ? now : null,
       );
-
       await _repository.save(workout);
       _reset();
       return workout;
@@ -171,16 +167,4 @@ class WorkoutBuilderController extends ChangeNotifier {
     _exercises.clear();
     _error = null;
   }
-
-  // ── Exercise draft helper ────────────────────────────────────────────────────
-
-  /// Creates a new blank exercise with a generated ID.
-  /// Use this to pre-populate the exercise form.
-  Exercise createBlankExercise() => Exercise(
-    id: IdService.generate(),
-    name: '',
-    type: ExerciseType.repetition,
-    sets: 3,
-    restTime: const Duration(seconds: 30),
-  );
 }

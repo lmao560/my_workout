@@ -8,7 +8,7 @@ import '../services/id_services.dart';
 ///
 /// One plan holds all [ScheduledWorkout] slots.
 /// This controller loads/saves the active plan and exposes
-/// helpers for today's schedule.
+/// helpers for today's schedules
 class ScheduleController extends ChangeNotifier {
   ScheduleController({
     required WorkoutPlanRepository planRepository,
