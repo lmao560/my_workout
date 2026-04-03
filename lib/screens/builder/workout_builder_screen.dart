@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/services/sound_service.dart';
-import 'package:workout_app/widgets/week_calender_widget.dart';
 import 'package:workout_app/widgets/animated_button.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:workout_app/widgets/week_calender_widget.dart';
 
 import '../../controllers/workout_builder_controller.dart';
 import '../../controllers/workout_list_controller.dart';
@@ -24,7 +24,6 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final names = context.read<WorkoutListController>().workoutNames;
       context.read<WorkoutBuilderController>().setExistingNames(names);
-
       if (widget.existing != null) {
         context.read<WorkoutBuilderController>().loadForEdit(widget.existing!);
       }
@@ -41,12 +40,10 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
             if (didPop) return;
             final hasChanges =
                 controller.name.isNotEmpty || controller.exercises.isNotEmpty;
-
             if (!hasChanges) {
               Navigator.of(context).pop();
               return;
             }
-
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (_) => AlertDialog(
@@ -71,13 +68,13 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                     onPressed: () => Navigator.pop(context, true),
                     child: Text(
                       'Keluar',
-                      style: GoogleFonts.russoOne(color: Color(0xFFE53935)),
+                      style: GoogleFonts.russoOne(
+                          color: const Color(0xFFE53935)),
                     ),
                   ),
                 ],
               ),
             );
-
             if (confirmed == true && context.mounted) {
               Navigator.of(context).pop();
             }
@@ -95,15 +92,12 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
               centerTitle: true,
               title: Text(
                 'WORKOUT',
-                selectionColor: Colors.black,
-                style: GoogleFonts.pressStart2p(
-                  fontSize: 26,
-                  letterSpacing: 2,
-                ),
+                style: GoogleFonts.pressStart2p(fontSize: 26, letterSpacing: 2),
               ),
             ),
             body: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height -
                     MediaQuery.of(context).padding.top -
@@ -118,9 +112,7 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                       margin: const EdgeInsets.symmetric(vertical: 2),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
-                      onDateSelected: (date) {
-                        print(date);
-                      },
+                      onDateSelected: (_) {},
                     ),
                     Expanded(
                       child: Container(
@@ -137,13 +129,13 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // Red name field
+                            // Name field
                             Container(
                               decoration: BoxDecoration(
                                 color: const Color(0xFFE53935),
                                 borderRadius: BorderRadius.circular(12),
                                 border:
-                                    Border.all(color: Colors.black, width: 2),
+                                Border.all(color: Colors.black, width: 2),
                                 boxShadow: const [
                                   BoxShadow(
                                       color: Colors.black,
@@ -165,25 +157,24 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                                     letterSpacing: 1.5,
                                   ),
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 12),
                                 ),
                                 onChanged: controller.setName,
                               ),
                             ),
 
+                            // Name error
                             Consumer<WorkoutBuilderController>(
-                              builder: (_, controller, __) {
-                                final error = controller.nameError;
-                                if (error == null)
-                                  return const SizedBox.shrink();
+                              builder: (_, ctrl, __) {
+                                final error = ctrl.nameError;
+                                if (error == null) return const SizedBox.shrink();
                                 return Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 6, left: 4),
+                                  padding: const EdgeInsets.only(top: 6, left: 4),
                                   child: Text(
                                     error,
                                     style: GoogleFonts.russoOne(
-                                      color: Color(0xFFE53935),
+                                      color: const Color(0xFFE53935),
                                       fontSize: 12,
                                     ),
                                   ),
@@ -198,51 +189,51 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                               child: controller.exercises.isEmpty
                                   ? const SizedBox.shrink()
                                   : ReorderableListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: controller.exercises.length,
-                                      onReorder: controller.reorderExercises,
-                                      proxyDecorator: (child, _, __) => child,
-                                      itemBuilder: (context, i) {
-                                        final ex = controller.exercises[i];
-                                        return _ExerciseTile(
-                                          key: ValueKey(ex.id),
-                                          exercise: ex,
-                                          onEdit: () => _openExerciseForm(
-                                              context, controller,
-                                              existing: ex),
-                                          onDelete: () =>
-                                              controller.removeExercise(ex.id),
-                                        );
-                                      },
-                                    ),
+                                shrinkWrap: true,
+                                itemCount: controller.exercises.length,
+                                onReorder: controller.reorderExercises,
+                                proxyDecorator: (child, _, __) => child,
+                                itemBuilder: (context, i) {
+                                  final ex = controller.exercises[i];
+                                  return _ExerciseTile(
+                                    key: ValueKey(ex.id),
+                                    exercise: ex,
+                                    onEdit: () => _openExerciseForm(
+                                        context, controller,
+                                        existing: ex),
+                                    onDelete: () =>
+                                        controller.removeExercise(ex.id),
+                                  );
+                                },
+                              ),
                             ),
 
-                            // Tambah Kegiatan button
+                            // Add exercise button
                             AnimatedButton(
                               onTap: () =>
                                   _openExerciseForm(context, controller),
                               builder: (isPressed) => Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 14),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF5D79E),
                                   borderRadius: BorderRadius.circular(12),
-                                  border:
-                                      Border.all(color: Colors.black, width: 2),
+                                  border: Border.all(
+                                      color: Colors.black, width: 2),
                                   boxShadow: isPressed
                                       ? []
                                       : const [
-                                          BoxShadow(
-                                              color: Colors.black,
-                                              offset: Offset(0, 4)),
-                                        ],
+                                    BoxShadow(
+                                        color: Colors.black,
+                                        offset: Offset(0, 4))
+                                  ],
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.add,
+                                    const Icon(Icons.add,
                                         color: Colors.black, size: 20),
-                                    SizedBox(width: 6),
+                                    const SizedBox(width: 6),
                                     Text(
                                       'Tambah Kegiatan',
                                       style: GoogleFonts.russoOne(
@@ -262,9 +253,10 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
 
                     const SizedBox(height: 16),
 
+                    // Exercise count error
                     Consumer<WorkoutBuilderController>(
-                      builder: (_, controller, __) {
-                        final error = controller.exerciseCountError;
+                      builder: (_, ctrl, __) {
+                        final error = ctrl.exerciseCountError;
                         if (error == null) return const SizedBox.shrink();
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8),
@@ -275,9 +267,7 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                               color: const Color(0xFFE53935).withOpacity(0.15),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: const Color(0xFFE53935),
-                                width: 1.5,
-                              ),
+                                  color: const Color(0xFFE53935), width: 1.5),
                             ),
                             child: Row(
                               children: [
@@ -287,7 +277,7 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                                 Text(
                                   error,
                                   style: GoogleFonts.russoOne(
-                                    color: Color(0xFFE53935),
+                                    color: const Color(0xFFE53935),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -305,7 +295,8 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                           : null,
                       sound: WorkoutSound.create,
                       builder: (isPressed) => Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding:
+                        const EdgeInsets.symmetric(vertical: 16),
                         decoration: BoxDecoration(
                           color: controller.canSave
                               ? const Color(0xFFEEFF5E)
@@ -315,28 +306,30 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                           boxShadow: isPressed
                               ? []
                               : const [
-                                  BoxShadow(
-                                      color: Colors.black,
-                                      offset: Offset(0, 4)),
-                                ],
+                            BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(0, 4))
+                          ],
                         ),
                         child: Center(
                           child: controller.isSaving
                               ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
-                                )
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2),
+                          )
                               : Text(
-                                  widget.existing == null ? 'CREATE' : 'UPDATE',
-                                  style: GoogleFonts.russoOne(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    letterSpacing: 2,
-                                  ),
-                                ),
+                            widget.existing == null
+                                ? 'CREATE'
+                                : 'UPDATE',
+                            style: GoogleFonts.russoOne(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              letterSpacing: 2,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -359,13 +352,14 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
   Future<void> _save(
       BuildContext context, WorkoutBuilderController controller) async {
     final workout = await controller.save();
-    if (workout != null && context.mounted) {
-      Navigator.of(context).pop();
-    }
+    if (workout != null && context.mounted) Navigator.of(context).pop();
   }
 
-  void _openExerciseForm(BuildContext context, WorkoutBuilderController ctrl,
-      {Exercise? existing}) {
+  void _openExerciseForm(
+      BuildContext context,
+      WorkoutBuilderController ctrl, {
+        Exercise? existing,
+      }) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -419,11 +413,8 @@ class _ExerciseTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
-          // ── Drag handle ───────────────────────────────────────────
           const Icon(Icons.drag_handle, color: Colors.black54, size: 20),
           const SizedBox(width: 8),
-
-          // ── Name ──────────────────────────────────────────────────
           Expanded(
             child: Text(
               exercise.name.isEmpty ? '(Unnamed)' : exercise.name,
@@ -434,8 +425,6 @@ class _ExerciseTile extends StatelessWidget {
               ),
             ),
           ),
-
-          // ── Sets info ─────────────────────────────────────────────
           Text(
             exercise.type == ExerciseType.repetition
                 ? '${exercise.reps} × ${exercise.sets}'
@@ -447,14 +436,12 @@ class _ExerciseTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-
-          // ── Duration icon (only for duration type) ────────────────
           if (isDuration) ...[
             Container(
               width: 28,
               height: 31,
               decoration: BoxDecoration(
-                color: const Color(0xFFF5AD18), // kuning
+                color: const Color(0xFFF5AD18),
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(color: Colors.black, width: 1.5),
                 boxShadow: const [
@@ -465,28 +452,20 @@ class _ExerciseTile extends StatelessWidget {
             ),
             const SizedBox(width: 2),
           ],
-
-          // ── Edit button ───────────────────────────────────────────
           _ActionButton(
-            label: 'Edit',
-            color: const Color(0xFFEEFF5E), // kuning
-            onTap: onEdit,
-          ),
+              label: 'Edit', color: const Color(0xFFEEFF5E), onTap: onEdit),
           const SizedBox(width: 2),
-
-          // ── Delete button ─────────────────────────────────────────
           _ActionButton(
-            label: 'Delete',
-            color: const Color(0xFFE53935), // merah
-            onTap: onDelete,
-          ),
+              label: 'Delete',
+              color: const Color(0xFFE53935),
+              onTap: onDelete),
         ],
       ),
     );
   }
 }
 
-// ── Small action button ───────────────────────────────────────────────────────
+// ── Action Button ─────────────────────────────────────────────────────────────
 
 class _ActionButton extends StatelessWidget {
   const _ActionButton({
@@ -511,9 +490,7 @@ class _ActionButton extends StatelessWidget {
           border: Border.all(color: Colors.black, width: 1.5),
           boxShadow: isPressed
               ? []
-              : const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                ],
+              : const [BoxShadow(color: Colors.black, offset: Offset(0, 4))],
         ),
         child: Text(
           label,
@@ -528,7 +505,7 @@ class _ActionButton extends StatelessWidget {
   }
 }
 
-// ── Exercise Form (Bottom Sheet) ──────────────────────────────────────────────
+// ── Exercise Form Sheet ───────────────────────────────────────────────────────
 
 class _ExerciseFormSheet extends StatefulWidget {
   const _ExerciseFormSheet({required this.initial, required this.onSave});
@@ -546,6 +523,7 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
   late int _reps;
   late int _durationSeconds;
   late int _restSeconds;
+  String? _nameError;
 
   @override
   void initState() {
@@ -583,7 +561,7 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
           Text(
             'Detail Kegiatan',
             style:
-                GoogleFonts.russoOne(fontWeight: FontWeight.bold, fontSize: 18),
+            GoogleFonts.russoOne(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           const SizedBox(height: 16),
 
@@ -602,7 +580,7 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
               child: Text(
                 _nameError!,
                 style: GoogleFonts.russoOne(
-                  color: Color(0xFFE53935),
+                  color: const Color(0xFFE53935),
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
@@ -619,26 +597,18 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
             clipBehavior: Clip.antiAlias,
             child: SegmentedButton<ExerciseType>(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return const Color(0xFF347433); // hijau
-                  }
-                  return Colors.white;
-                }),
-                foregroundColor: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return Colors.white;
-                  }
-                  return Colors.black;
-                }),
+                backgroundColor: MaterialStateProperty.resolveWith((states) =>
+                states.contains(MaterialState.selected)
+                    ? const Color(0xFF347433)
+                    : Colors.white),
+                foregroundColor: MaterialStateProperty.resolveWith((states) =>
+                states.contains(MaterialState.selected)
+                    ? Colors.white
+                    : Colors.black),
                 side: MaterialStateProperty.all(
-                  const BorderSide(color: Colors.black, width: 2),
-                ),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
+                    const BorderSide(color: Colors.black, width: 2)),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20))),
               ),
               segments: [
                 ButtonSegment(
@@ -712,8 +682,8 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
                 boxShadow: isPressed
                     ? []
                     : const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
+                  BoxShadow(color: Colors.black, offset: Offset(0, 4))
+                ],
               ),
               child: Center(
                 child: Text(
@@ -732,19 +702,10 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
     );
   }
 
-  String? _nameError;
-
   String? _validate() {
-    if (_name.trim().isEmpty || _name.trim().length == 0) {
-      return 'Nama exercise tidak boleh kosong';
-    }
-    if (_name.trim().split('').every((c) => c == ' ')) {
-      return 'Nama exercise tidak valid';
-    }
+    if (_name.trim().isEmpty) return 'Nama exercise tidak boleh kosong';
     if (_sets < 1) return 'Sets minimal 1';
-    if (_type == ExerciseType.repetition && _reps < 1) {
-      return 'Reps minimal 1';
-    }
+    if (_type == ExerciseType.repetition && _reps < 1) return 'Reps minimal 1';
     if (_type == ExerciseType.duration && _durationSeconds < 5) {
       return 'Durasi minimal 5 detik';
     }
@@ -757,7 +718,7 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
       setState(() => _nameError = error);
       return;
     }
-    final exercise = widget.initial.copyWith(
+    widget.onSave(widget.initial.copyWith(
       name: _name.trim(),
       type: _type,
       sets: _sets,
@@ -766,13 +727,12 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
           ? Duration(seconds: _durationSeconds)
           : null,
       restTime: Duration(seconds: _restSeconds),
-    );
-    widget.onSave(exercise);
+    ));
     Navigator.of(context).pop();
   }
 }
 
-// ── Styled text field ─────────────────────────────────────────────────────────
+// ── Styled Text Field ─────────────────────────────────────────────────────────
 
 class _StyledTextField extends StatelessWidget {
   const _StyledTextField({
@@ -798,19 +758,13 @@ class _StyledTextField extends StatelessWidget {
       ),
       child: TextFormField(
         initialValue: initialValue,
-        style: GoogleFonts.russoOne(
-          fontSize: 16,
-          color: Colors.black,
-        ),
+        style: GoogleFonts.russoOne(fontSize: 16, color: Colors.black),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: GoogleFonts.russoOne(
-            fontSize: 16,
-            color: Colors.black,
-          ),
+          hintStyle: GoogleFonts.russoOne(fontSize: 16, color: Colors.black),
           border: InputBorder.none,
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         ),
         onChanged: onChanged,
       ),
@@ -818,7 +772,7 @@ class _StyledTextField extends StatelessWidget {
   }
 }
 
-// ── Number stepper ────────────────────────────────────────────────────────────
+// ── Number Stepper ────────────────────────────────────────────────────────────
 
 class _NumberField extends StatelessWidget {
   const _NumberField({
@@ -855,20 +809,9 @@ class _NumberField extends StatelessWidget {
           ),
           AnimatedButton(
             onTap: value > min ? () => onChanged(value - 1) : null,
-            builder: (isPressed) => Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFC107),
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: Colors.black, width: 1.5),
-                boxShadow: isPressed
-                    ? []
-                    : const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
-              ),
-              child: const Icon(Icons.remove, size: 16),
+            builder: (isPressed) => _StepperBtn(
+              icon: Icons.remove,
+              isPressed: isPressed,
             ),
           ),
           SizedBox(
@@ -882,24 +825,36 @@ class _NumberField extends StatelessWidget {
           ),
           AnimatedButton(
             onTap: value < max ? () => onChanged(value + 1) : null,
-            builder: (isPressed) => Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFC107),
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: Colors.black, width: 1.5),
-                boxShadow: isPressed
-                    ? []
-                    : const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
-              ),
-              child: const Icon(Icons.add, size: 16),
+            builder: (isPressed) => _StepperBtn(
+              icon: Icons.add,
+              isPressed: isPressed,
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _StepperBtn extends StatelessWidget {
+  const _StepperBtn({required this.icon, required this.isPressed});
+  final IconData icon;
+  final bool isPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 30,
+      height: 30,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFC107),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: Colors.black, width: 1.5),
+        boxShadow: isPressed
+            ? []
+            : const [BoxShadow(color: Colors.black, offset: Offset(0, 4))],
+      ),
+      child: Icon(icon, size: 16),
     );
   }
 }
