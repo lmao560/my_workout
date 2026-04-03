@@ -157,9 +157,12 @@ class WorkoutSessionScreen extends StatelessWidget {
                           : const Color(0xFFD4D4AA),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: Colors.black, width: 2),
-                      boxShadow: isPressed ? [] : const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
+                      boxShadow: isPressed
+                          ? []
+                          : const [
+                              BoxShadow(
+                                  color: Colors.black, offset: Offset(0, 4)),
+                            ],
                     ),
                     child: Center(
                       child: Text(
@@ -190,8 +193,7 @@ Future<void> _onComplete(
   final notStarted = workout.exercises
       .asMap()
       .entries
-      .where((e) =>
-  !controller.completedExercises.contains(e.key))
+      .where((e) => !controller.completedExercises.contains(e.key))
       .map((e) => e.value.name)
       .toList();
 
@@ -217,19 +219,19 @@ Future<void> _onComplete(
             const Text('Exercise berikut belum diselesaikan:'),
             const SizedBox(height: 8),
             ...notStarted.map((name) => Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                children: [
-                  const Icon(Icons.circle,
-                      size: 8, color: Color(0xFFE53935)),
-                  const SizedBox(width: 8),
-                  Text(
-                    name,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.circle,
+                          size: 8, color: Color(0xFFE53935)),
+                      const SizedBox(width: 8),
+                      Text(
+                        name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
             const SizedBox(height: 8),
             const Text('Tetap selesaikan workout?'),
           ],
@@ -366,14 +368,18 @@ class _SessionExerciseTile extends StatelessWidget {
                   onTap: onStart,
                   sound: WorkoutSound.startExercise, // ← sound khusus start
                   builder: (isPressed) => Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                     decoration: BoxDecoration(
                       color: const Color(0xFF41A67E),
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(color: Colors.black, width: 1.5),
-                      boxShadow: isPressed ? [] : const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
+                      boxShadow: isPressed
+                          ? []
+                          : const [
+                              BoxShadow(
+                                  color: Colors.black, offset: Offset(0, 4)),
+                            ],
                     ),
                     child: Text(
                       'Start',
@@ -455,9 +461,11 @@ class _ActiveInfo extends StatelessWidget {
                   color: const Color(0xFFEEFF5E),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.black, width: 1.5),
-                  boxShadow: isPressed ? [] : const [
-                    BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                  ],
+                  boxShadow: isPressed
+                      ? []
+                      : const [
+                          BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                        ],
                 ),
                 child: Text(
                   'Next Set',
@@ -502,9 +510,11 @@ class _SmallButton extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.black, width: 1.5),
-          boxShadow: isPressed ? [] : const [
-            BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-          ],
+          boxShadow: isPressed
+              ? []
+              : const [
+                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                ],
         ),
         child: Text(
           label,
@@ -668,9 +678,12 @@ class _CompletedView extends StatelessWidget {
                     color: const Color(0xFFF4F754),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.black, width: 2),
-                    boxShadow: isPressed ? [] : const [
-                      BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                    ],
+                    boxShadow: isPressed
+                        ? []
+                        : const [
+                            BoxShadow(
+                                color: Colors.black, offset: Offset(0, 4)),
+                          ],
                   ),
                   child: Center(
                     child: Text(

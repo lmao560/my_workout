@@ -1,14 +1,12 @@
 import 'package:flutter/foundation.dart';
 
+import '../models/history.dart';
 import '../models/models.dart';
-import '../services/timer_service.dart';
 import '../repository/repository.dart';
 import '../services/id_services.dart';
 import '../services/sound_service.dart';
-import '../models/history.dart';
+import '../services/timer_service.dart';
 
-/// Core workout session controller.
-/// Logic is identical to v1 — unchanged by the new builder/schedule features.
 class WorkoutController extends ChangeNotifier {
   WorkoutController({
     TimerService? timerService,
@@ -18,104 +16,36 @@ class WorkoutController extends ChangeNotifier {
         _historyRepo = historyRepository,
         _soundService = soundService ?? SoundService();
 
+  // ── Dependencies ──────────────────────────────────────────────────────────────
+
   final TimerService _timer;
   final HistoryRepository? _historyRepo;
   final SoundService _soundService;
 
+  // ── State ─────────────────────────────────────────────────────────────────────
+
+  Workout? _workout;
+  WorkoutSession? _session;
   final Set<int> _completedExercises = {};
   final Map<int, DateTime> _exerciseStartTimes = {};
 
-  Set<int> get completedExercises => Set.unmodifiable(_completedExercises);
+  // ── Getters ───────────────────────────────────────────────────────────────────
 
+  Workout? get workout => _workout;
+  WorkoutSession? get session => _session;
+  bool get isRunning => _session?.isRunning ?? false;
+  bool get isCompleted => _session?.isCompleted ?? false;
+  ExerciseProgress? get currentProgress => _session?.currentProgress;
+  Exercise? get currentExercise => currentProgress?.exercise;
+  ExercisePhase get currentPhase => currentProgress?.phase ?? ExercisePhase.idle;
+  bool get soundEnabled => _soundService.enabled;
+  Set<int> get completedExercises => Set.unmodifiable(_completedExercises);
   bool get allExercisesCompleted =>
       _workout != null &&
           _completedExercises.length >= _workout!.exercises.length;
 
-// Mulai exercise tertentu by index
-  void startExercise(int index) {
-    if (_workout == null) return;
-    _timer.cancel();
-    _exerciseStartTimes[index] = DateTime.now();
+  // ── Public actions ────────────────────────────────────────────────────────────
 
-    _session = WorkoutSession(
-      workoutId: _workout!.id,
-      status: SessionStatus.running,
-      currentExerciseIndex: index,
-      startedAt: _session?.startedAt ?? DateTime.now(),
-    );
-
-    _beginExercise(index);
-  }
-
-// Cancel exercise yang sedang berjalan
-  void cancelExercise() {
-    _timer.cancel();
-    _session = _session?.copyWith(
-      status: SessionStatus.idle,
-      currentProgress: null,
-    );
-    notifyListeners();
-  }
-
-// Override _completeSession agar tidak auto-complete,
-// tapi mark exercise sebagai selesai
-  void _completeCurrentExercise() {
-    _soundService.play(WorkoutSound.exerciseDone);
-    if (_session == null) return;
-    _completedExercises.add(_session!.currentExerciseIndex);
-    _timer.cancel();
-    _session = _session!.copyWith(
-      status: SessionStatus.idle,
-      currentProgress:
-      currentProgress?.copyWith(phase: ExercisePhase.completed),
-    );
-    notifyListeners();
-  }
-
-// Panggil ini dari tombol COMPLETE
-  void completeSession() {
-    _soundService.play(WorkoutSound.complete);
-    if (!allExercisesCompleted) return;
-
-    final endTime = DateTime.now();
-    final startTime = _session?.startedAt ?? endTime;
-
-    // Build exercise results
-    final results = _workout!.exercises.asMap().entries.map((entry) {
-      final i = entry.key;
-      final ex = entry.value;
-      final exStart = _exerciseStartTimes[i] ?? startTime;
-      return ExerciseResult(
-        exerciseId: ex.id,
-        exerciseName: ex.name,
-        type: ex.type,
-        sets: ex.sets,
-        reps: ex.reps,
-        duration: ex.duration,
-        totalTime: endTime.difference(exStart),
-      );
-    }).toList();
-
-    final history = WorkoutHistory(
-      id: IdService.generate(),
-      workoutId: _workout!.id,
-      workoutName: _workout!.name,
-      completedAt: endTime,
-      totalDuration: endTime.difference(startTime),
-      exercises: results,
-    );
-
-    _historyRepo?.save(history);
-
-    _session = _session?.copyWith(
-      status: SessionStatus.completed,
-      completedAt: endTime,
-    );
-    notifyListeners();
-  }
-
-// Reset saat load workout baru
-  @override
   void loadWorkout(Workout workout) {
     _timer.cancel();
     _completedExercises.clear();
@@ -125,33 +55,38 @@ class WorkoutController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Workout? _workout;
-  WorkoutSession? _session;
-
-  Workout? get workout => _workout;
-  WorkoutSession? get session => _session;
-
-  bool get isRunning => _session?.isRunning ?? false;
-  bool get isCompleted => _session?.isCompleted ?? false;
-
-  ExerciseProgress? get currentProgress => _session?.currentProgress;
-  Exercise? get currentExercise => currentProgress?.exercise;
-  ExercisePhase get currentPhase =>
-      currentProgress?.phase ?? ExercisePhase.idle;
-
-  // ── Session lifecycle ────────────────────────────────────────────────────────
   void startSession() {
     assert(_workout != null, 'Call loadWorkout() before startSession()');
     if (_workout!.exercises.isEmpty) return;
-
     _session = WorkoutSession(
       workoutId: _workout!.id,
       status: SessionStatus.running,
       currentExerciseIndex: 0,
       startedAt: DateTime.now(),
     );
-
     _beginExercise(0);
+  }
+
+  void startExercise(int index) {
+    if (_workout == null) return;
+    _timer.cancel();
+    _exerciseStartTimes[index] = DateTime.now();
+    _session = WorkoutSession(
+      workoutId: _workout!.id,
+      status: SessionStatus.running,
+      currentExerciseIndex: index,
+      startedAt: _session?.startedAt ?? DateTime.now(),
+    );
+    _beginExercise(index);
+  }
+
+  void cancelExercise() {
+    _timer.cancel();
+    _session = _session?.copyWith(
+      status: SessionStatus.idle,
+      currentProgress: null,
+    );
+    notifyListeners();
   }
 
   void stopSession() {
@@ -159,8 +94,6 @@ class WorkoutController extends ChangeNotifier {
     _session = _session?.copyWith(status: SessionStatus.idle);
     notifyListeners();
   }
-
-  // ── User actions ─────────────────────────────────────────────────────────────
 
   void onNextSet() {
     final progress = currentProgress;
@@ -174,16 +107,61 @@ class WorkoutController extends ChangeNotifier {
     final progress = currentProgress;
     if (progress == null) return;
     if (progress.phase != ExercisePhase.resting) return;
-    //_soundService.stopLoop();
     _timer.cancel();
     _finishRest();
   }
 
-  // ── Internal flow ────────────────────────────────────────────────────────────
+  void finishExercise() {
+    if (currentProgress?.phase != ExercisePhase.waitingFinish) return;
+    _completeCurrentExercise();
+  }
+
+  void toggleSound() {
+    _soundService.toggleSound();
+    notifyListeners();
+  }
+
+  void completeSession() {
+    if (!allExercisesCompleted) return;
+    _soundService.play(WorkoutSound.complete);
+
+    final endTime = DateTime.now();
+    final startTime = _session?.startedAt ?? endTime;
+
+    final results = _workout!.exercises.asMap().entries.map((entry) {
+      final ex = entry.value;
+      final exStart = _exerciseStartTimes[entry.key] ?? startTime;
+      return ExerciseResult(
+        exerciseId: ex.id,
+        exerciseName: ex.name,
+        type: ex.type,
+        sets: ex.sets,
+        reps: ex.reps,
+        duration: ex.duration,
+        totalTime: endTime.difference(exStart),
+      );
+    }).toList();
+
+    _historyRepo?.save(WorkoutHistory(
+      id: IdService.generate(),
+      workoutId: _workout!.id,
+      workoutName: _workout!.name,
+      completedAt: endTime,
+      totalDuration: endTime.difference(startTime),
+      exercises: results,
+    ));
+
+    _session = _session?.copyWith(
+      status: SessionStatus.completed,
+      completedAt: endTime,
+    );
+    notifyListeners();
+  }
+
+  // ── Internal flow ─────────────────────────────────────────────────────────────
 
   void _beginExercise(int index) {
     final exercise = _workout!.exercises[index];
-
     _session = _session!.copyWith(
       currentExerciseIndex: index,
       currentProgress: ExerciseProgress(
@@ -215,10 +193,7 @@ class WorkoutController extends ChangeNotifier {
     );
   }
 
-  void _finishActivePhase() {
-    final progress = currentProgress!;
-    _beginRest(progress);
-  }
+  void _finishActivePhase() => _beginRest(currentProgress!);
 
   void _beginRest(ExerciseProgress progress) {
     _soundService.playWithTimeout(WorkoutSound.restStart, seconds: 1);
@@ -245,20 +220,11 @@ class WorkoutController extends ChangeNotifier {
     );
   }
 
-  bool get soundEnabled => _soundService.enabled;
-
-  void toggleSound() {
-    _soundService.toggleSound();
-    notifyListeners();
-  }
-
   void _finishRest() {
-    //_soundService.stopLoop();
     _soundService.play(WorkoutSound.restEnd);
     final progress = currentProgress!;
 
     if (progress.isLastSet) {
-      // Rest selesai setelah set terakhir → tunggu user tekan FINISH
       _session = _session!.copyWith(
         currentProgress: progress.copyWith(
           phase: ExercisePhase.waitingFinish,
@@ -267,7 +233,6 @@ class WorkoutController extends ChangeNotifier {
       );
       notifyListeners();
     } else {
-      // Masih ada set → lanjut active
       final exercise = progress.exercise;
       _session = _session!.copyWith(
         currentProgress: ExerciseProgress(
@@ -284,10 +249,19 @@ class WorkoutController extends ChangeNotifier {
     }
   }
 
-  void finishExercise() {
-    if (currentProgress?.phase != ExercisePhase.waitingFinish) return;
-    _completeCurrentExercise();
+  void _completeCurrentExercise() {
+    if (_session == null) return;
+    _soundService.play(WorkoutSound.exerciseDone);
+    _completedExercises.add(_session!.currentExerciseIndex);
+    _timer.cancel();
+    _session = _session!.copyWith(
+      status: SessionStatus.idle,
+      currentProgress: currentProgress?.copyWith(phase: ExercisePhase.completed),
+    );
+    notifyListeners();
   }
+
+  // ── Dispose ───────────────────────────────────────────────────────────────────
 
   @override
   void dispose() {

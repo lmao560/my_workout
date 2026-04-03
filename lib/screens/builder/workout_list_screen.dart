@@ -50,9 +50,11 @@ class _WorkoutListScreenState extends State<WorkoutListScreen> {
             color: const Color(0xFFFE62727),
             shape: BoxShape.circle,
             border: Border.all(color: Colors.black, width: 2),
-            boxShadow: isPressed ? [] : const [
-              BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-            ],
+            boxShadow: isPressed
+                ? []
+                : const [
+                    BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                  ],
           ),
           child: const Icon(Icons.add, color: Colors.black),
         ),
@@ -158,9 +160,12 @@ class _WorkoutTile extends StatelessWidget {
                     color: const Color(0xFFF5AD18),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: Colors.black, width: 1.5),
-                    boxShadow: isPressed ? [] : const [
-                      BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                    ],
+                    boxShadow: isPressed
+                        ? []
+                        : const [
+                            BoxShadow(
+                                color: Colors.black, offset: Offset(0, 4)),
+                          ],
                   ),
                   child: const Icon(Icons.remove_red_eye,
                       size: 18, color: Colors.black),
@@ -229,8 +234,8 @@ class _WorkoutTile extends StatelessWidget {
     context.read<WorkoutBuilderController>().loadForDuplicate(workout);
     Navigator.of(context)
         .push(MaterialPageRoute(
-      builder: (_) => const WorkoutBuilderScreen(),
-    ))
+          builder: (_) => const WorkoutBuilderScreen(),
+        ))
         .then((_) => context.read<WorkoutListController>().refresh());
   }
 
@@ -294,9 +299,11 @@ class _TileButton extends StatelessWidget {
             color: color,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.black, width: 2),
-            boxShadow: isPressed ? [] : const [
-              BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-            ],
+            boxShadow: isPressed
+                ? []
+                : const [
+                    BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                  ],
           ),
           child: Center(
             child: Text(
@@ -372,9 +379,11 @@ class _WorkoutPreviewCard extends StatelessWidget {
                 color: const Color(0xFFE62727),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.black, width: 2),
-                boxShadow: isPressed ? [] : const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                ],
+                boxShadow: isPressed
+                    ? []
+                    : const [
+                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                      ],
               ),
               child: Center(
                 child: Text(

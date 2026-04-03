@@ -29,8 +29,7 @@ class ExerciseActiveScreen extends StatelessWidget {
 
         final phase = progress.phase;
         final isResting = phase == ExercisePhase.resting;
-        final isRepetition =
-            progress.exercise.type == ExerciseType.repetition;  
+        final isRepetition = progress.exercise.type == ExerciseType.repetition;
 
         // Sisa set: saat active = belum dikurangi, saat rest = sudah dikurangi
         final remainingSets = isResting
@@ -56,7 +55,7 @@ class ExerciseActiveScreen extends StatelessWidget {
                     title: Text(
                       'Keluar dari exercise?',
                       style: GoogleFonts.russoOne(
-                          fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                       ),
                     ),
@@ -95,136 +94,140 @@ class ExerciseActiveScreen extends StatelessWidget {
               ),
             ),
           ),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      kToolbarHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      WeekCalendarWidget(
-                        showInfoCard: false,
-                        height: 15,
-                        margin: const EdgeInsets.symmetric(vertical: 2),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        onDateSelected: (date) {
-                          print(date);
-                        },
-                      ),
-
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFE1AF),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.black, width: 2),
-                            boxShadow: const [
-                              BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                            ],
-                          ),
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              // ── Workout title (red) ──────────────────
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE53935),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: Colors.black, width: 2),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Colors.black, offset: Offset(0, 4)),
-                                  ],
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 12),
-                                child: Text(
-                                  workout.name,
-                                  style: GoogleFonts.russoOne(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    kToolbarHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    WeekCalendarWidget(
+                      showInfoCard: false,
+                      height: 15,
+                      margin: const EdgeInsets.symmetric(vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      onDateSelected: (date) {
+                        print(date);
+                      },
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFE1AF),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black, width: 2),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.black, offset: Offset(0, 4)),
+                          ],
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // ── Workout title (red) ──────────────────
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE53935),
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0, 4)),
+                                ],
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              child: Text(
+                                workout.name,
+                                style: GoogleFonts.russoOne(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
                               ),
-                              const SizedBox(height: 12),
+                            ),
+                            const SizedBox(height: 12),
 
-                              // ── Exercise name (teal) ─────────────────
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF1E93AB),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: Colors.black, width: 2),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Colors.black, offset: Offset(0, 4)),
-                                  ],
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 10),
-                                child: Text(
-                                  isRepetition
-                                      ? '${progress.exercise.name}  ${progress.exercise.reps} × ${progress.exercise.sets}'
-                                      : '${progress.exercise.name}  × ${progress.exercise.sets}',
-                                  style: GoogleFonts.russoOne(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.black,
-                                  ),
+                            // ── Exercise name (teal) ─────────────────
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF1E93AB),
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0, 4)),
+                                ],
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 10),
+                              child: Text(
+                                isRepetition
+                                    ? '${progress.exercise.name}  ${progress.exercise.reps} × ${progress.exercise.sets}'
+                                    : '${progress.exercise.name}  × ${progress.exercise.sets}',
+                                style: GoogleFonts.russoOne(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black,
                                 ),
                               ),
-                              const SizedBox(height: 24),
+                            ),
+                            const SizedBox(height: 24),
 
-                              // ── Konten tengah ─────────────────────────
-                              if (phase == ExercisePhase.waitingFinish)
-                                _CelebrationView(exercise: progress.exercise)
-                              else ...[
-                                if (progress.remainingTime != null)
-                                  _FlipTimerDisplay(
-                                    remaining: progress.remainingTime!,
-                                    isResting: isResting,
-                                  ),
-                                const SizedBox(height: 24),
-                                _RemainingSetsBadge(
-                                  remainingSets: remainingSets,
+                            // ── Konten tengah ─────────────────────────
+                            if (phase == ExercisePhase.waitingFinish)
+                              _CelebrationView(exercise: progress.exercise)
+                            else ...[
+                              if (progress.remainingTime != null)
+                                _FlipTimerDisplay(
+                                  remaining: progress.remainingTime!,
                                   isResting: isResting,
-                                  totalSets: progress.exercise.sets,
                                 ),
-                              ],
-
                               const SizedBox(height: 24),
-
-                              // ── Action button ─────────────────────────
-                              _ActionButton(
-                                progress: progress,
+                              _RemainingSetsBadge(
                                 remainingSets: remainingSets,
-                                onNextSet: controller.onNextSet,
-                                onFinish: controller.finishExercise,
-                                onSkipRest: controller.skipRest,
+                                isResting: isResting,
+                                totalSets: progress.exercise.sets,
                               ),
-                              const SizedBox(height: 8),
                             ],
-                          ),
+
+                            const SizedBox(height: 24),
+
+                            // ── Action button ─────────────────────────
+                            _ActionButton(
+                              progress: progress,
+                              remainingSets: remainingSets,
+                              onNextSet: controller.onNextSet,
+                              onFinish: controller.finishExercise,
+                              onSkipRest: controller.skipRest,
+                            ),
+                            const SizedBox(height: 8),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
               ),
-            ),        // SingleChildScrollView
-        );            // Scaffold
-      },              // Consumer builder
-    );                // Consumer
-  }                   // build()
-}                     // ExerciseActiveScreen
+            ),
+          ), // SingleChildScrollView
+        ); // Scaffold
+      }, // Consumer builder
+    ); // Consumer
+  } // build()
+} // ExerciseActiveScreen
 
 // ── Remaining sets badge ──────────────────────────────────────────────────────
 
@@ -265,8 +268,8 @@ class _RemainingSetsBadge extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isActive
                     ? (isResting
-                    ? const Color(0xFF1E93AB)
-                    : const Color(0xFF4DC8D0))
+                        ? const Color(0xFF1E93AB)
+                        : const Color(0xFF4DC8D0))
                     : const Color(0xFFBFC9D1),
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.black26, width: 1.5),
@@ -350,8 +353,7 @@ class _CelebrationViewState extends State<_CelebrationView>
           FadeTransition(
             opacity: _fadeAnim,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
                 color: const Color(0xFF1E93AB),
                 borderRadius: BorderRadius.circular(12),
@@ -419,7 +421,8 @@ class _RetroPhotoFrame extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 8, height: 8,
+                  width: 8,
+                  height: 8,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -427,7 +430,8 @@ class _RetroPhotoFrame extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Container(
-                  width: 8, height: 8,
+                  width: 8,
+                  height: 8,
                   decoration: const BoxDecoration(
                     color: Color(0xFFFFC107),
                     shape: BoxShape.circle,
@@ -435,7 +439,8 @@ class _RetroPhotoFrame extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Container(
-                  width: 8, height: 8,
+                  width: 8,
+                  height: 8,
                   decoration: const BoxDecoration(
                     color: Color(0xFF347433),
                     shape: BoxShape.circle,
@@ -517,8 +522,8 @@ class _FlipTimerDisplay extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isResting
-            ? const Color(0xFFE62727)   // kuning saat rest
-            : const Color(0xFFE53935),  // merah saat active
+            ? const Color(0xFFE62727) // kuning saat rest
+            : const Color(0xFFE53935), // merah saat active
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.black, width: 2),
         boxShadow: const [
@@ -591,15 +596,13 @@ class _ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final phase = progress.phase;
     final isResting = phase == ExercisePhase.resting;
-    final isRepetition =
-        progress.exercise.type == ExerciseType.repetition;
+    final isRepetition = progress.exercise.type == ExerciseType.repetition;
     final isDone = phase == ExercisePhase.waitingFinish;
 
     // Label dan warna tombol
     final String label;
     final Color color;
     final bool tappable;
-
 
     if (isDone) {
       label = 'FINISH';
@@ -640,9 +643,11 @@ class _ActionButton extends StatelessWidget {
                 color: const Color(0xFF4DC8D0),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.black, width: 2),
-                boxShadow: isPressed ? [] : const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                ],
+                boxShadow: isPressed
+                    ? []
+                    : const [
+                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                      ],
               ),
               child: Center(
                 child: Text(
@@ -659,7 +664,6 @@ class _ActionButton extends StatelessWidget {
           ),
         ],
       );
-
     } else if (isRepetition) {
       label = 'NEXT SET';
       color = const Color(0xFF06923E);
@@ -671,10 +675,7 @@ class _ActionButton extends StatelessWidget {
     }
 
     return AnimatedButton(
-      onTap: tappable
-          ? (isDone ? onFinish : onNextSet)
-          : null,
-
+      onTap: tappable ? (isDone ? onFinish : onNextSet) : null,
       builder: (isPressed) => Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(

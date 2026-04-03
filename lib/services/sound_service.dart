@@ -17,9 +17,9 @@ class SoundService {
   factory SoundService() => _instance;
   SoundService._internal();
 
-  final AudioPlayer _uiPlayer = AudioPlayer();      // untuk button click
-  final AudioPlayer _gamePlayer = AudioPlayer();    // untuk sound gameplay
-  final AudioPlayer _loopPlayer = AudioPlayer();    // untuk loop countdown
+  final AudioPlayer _uiPlayer = AudioPlayer(); // untuk button click
+  final AudioPlayer _gamePlayer = AudioPlayer(); // untuk sound gameplay
+  final AudioPlayer _loopPlayer = AudioPlayer(); // untuk loop countdown
   bool _enabled = true;
 
   bool get enabled => _enabled;
@@ -78,13 +78,13 @@ class SoundService {
   // Tentukan player berdasarkan jenis sound
   AudioPlayer _getPlayer(WorkoutSound sound) {
     return switch (sound) {
-    // UI sounds pakai _uiPlayer
+      // UI sounds pakai _uiPlayer
       WorkoutSound.buttonClick => _uiPlayer,
       WorkoutSound.startExercise => _uiPlayer,
       WorkoutSound.save => _uiPlayer,
       WorkoutSound.create => _uiPlayer,
 
-    // Gameplay sounds pakai _gamePlayer
+      // Gameplay sounds pakai _gamePlayer
       WorkoutSound.restStart => _gamePlayer,
       WorkoutSound.restEnd => _gamePlayer,
       WorkoutSound.exerciseDone => _gamePlayer,
@@ -93,18 +93,17 @@ class SoundService {
     };
   }
 
-
   String _soundPath(WorkoutSound sound) {
     return switch (sound) {
-      WorkoutSound.restStart     => 'sounds/start_rest.wav',
-      WorkoutSound.restEnd       => 'sounds/rest_end.mp3',
-      WorkoutSound.exerciseDone  => 'sounds/exercise_done.wav',
-      WorkoutSound.countdown     => 'sounds/countdown.wav',
-      WorkoutSound.complete      => 'sounds/complete.mp3',
-      WorkoutSound.buttonClick   => 'sounds/click_button.wav',
+      WorkoutSound.restStart => 'sounds/start_rest.wav',
+      WorkoutSound.restEnd => 'sounds/rest_end.mp3',
+      WorkoutSound.exerciseDone => 'sounds/exercise_done.wav',
+      WorkoutSound.countdown => 'sounds/countdown.wav',
+      WorkoutSound.complete => 'sounds/complete.mp3',
+      WorkoutSound.buttonClick => 'sounds/click_button.wav',
       WorkoutSound.startExercise => 'sounds/start_exercise.mp3',
-      WorkoutSound.save          => 'sounds/save.flac',
-      WorkoutSound.create        => 'sounds/create.wav',
+      WorkoutSound.save => 'sounds/save.flac',
+      WorkoutSound.create => 'sounds/create.wav',
     };
   }
 

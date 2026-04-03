@@ -47,23 +47,53 @@ class _WeekCalendarWidgetState extends State<WeekCalendarWidget> {
   DateTime? _selectedDate;
 
   static const List<String> _bulanIndo = [
-    'JANUARI',   'FEBRUARI', 'MARET',    'APRIL',
-    'MEI',       'JUNI',     'JULI',     'AGUSTUS',
-    'SEPTEMBER', 'OKTOBER',  'NOVEMBER', 'DESEMBER',
+    'JANUARI',
+    'FEBRUARI',
+    'MARET',
+    'APRIL',
+    'MEI',
+    'JUNI',
+    'JULI',
+    'AGUSTUS',
+    'SEPTEMBER',
+    'OKTOBER',
+    'NOVEMBER',
+    'DESEMBER',
   ];
 
   static const List<String> _bulanIndoPanjang = [
-    'Januari',   'Februari', 'Maret',    'April',
-    'Mei',       'Juni',     'Juli',     'Agustus',
-    'September', 'Oktober',  'November', 'Desember',
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
   ];
 
   static const List<String> _hariNames = [
-    'MIN', 'SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB'
+    'MIN',
+    'SEN',
+    'SEL',
+    'RAB',
+    'KAM',
+    'JUM',
+    'SAB'
   ];
 
   static const List<String> _hariPanjang = [
-    'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
+    'Minggu',
+    'Senin',
+    'Selasa',
+    'Rabu',
+    'Kamis',
+    'Jumat',
+    'Sabtu'
   ];
 
   @override
@@ -101,9 +131,9 @@ class _WeekCalendarWidgetState extends State<WeekCalendarWidget> {
 
   bool _isSelected(DateTime d) =>
       _selectedDate != null &&
-          d.year == _selectedDate!.year &&
-          d.month == _selectedDate!.month &&
-          d.day == _selectedDate!.day;
+      d.year == _selectedDate!.year &&
+      d.month == _selectedDate!.month &&
+      d.day == _selectedDate!.day;
 
   void _onTapDate(DateTime date) {
     setState(() => _selectedDate = date);
@@ -137,12 +167,9 @@ class _WeekCalendarWidgetState extends State<WeekCalendarWidget> {
   // ── Card Kalender ─────────────────────────────────────────
   Widget _buildCalendarCard() {
     return Container(
-      margin: widget.margin
-          ?? const EdgeInsets.symmetric(horizontal: 20),
-
-      padding: widget.padding
-        ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-
+      margin: widget.margin ?? const EdgeInsets.symmetric(horizontal: 20),
+      padding: widget.padding ??
+          const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
         color: const Color(0xFFFFE1AF),
         borderRadius: BorderRadius.circular(15),
@@ -175,23 +202,26 @@ class _WeekCalendarWidgetState extends State<WeekCalendarWidget> {
               _NavButton(icon: '<', onTap: _prevWeek),
               Expanded(
                 child: Row(
-                  children: List.generate(7, (i) => Expanded(
-                    child: Text(
-                      _hariNames[i],
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.russoOne(
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: i == 0
-                            ? const Color(0xFFCC0000)   // Minggu merah
-                            : i == 5
-                            ? const Color(0xFF006600)  // Jumat hijau
-                            : i == 6
-                            ? const Color(0xFF0055CC) // Sabtu biru
-                            : const Color(0xFF555555),
-                      ),
-                    ),
-                  )),
+                  children: List.generate(
+                      7,
+                      (i) => Expanded(
+                            child: Text(
+                              _hariNames[i],
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.russoOne(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: i == 0
+                                    ? const Color(0xFFCC0000) // Minggu merah
+                                    : i == 5
+                                        ? const Color(0xFF006600) // Jumat hijau
+                                        : i == 6
+                                            ? const Color(
+                                                0xFF0055CC) // Sabtu biru
+                                            : const Color(0xFF555555),
+                              ),
+                            ),
+                          )),
                 ),
               ),
               _NavButton(icon: '>', onTap: _nextWeek),
@@ -228,12 +258,12 @@ class _WeekCalendarWidgetState extends State<WeekCalendarWidget> {
   Widget _buildDateRow() {
     return Row(
       children: List.generate(7, (i) {
-        final date     = _weekStart.add(Duration(days: i));
-        final today    = _isToday(date);
+        final date = _weekStart.add(Duration(days: i));
+        final today = _isToday(date);
         final selected = _isSelected(date);
-        final libur    = HariLiburIndonesia.get(date);
-        final isLibur  = libur != null && !libur.isCutiBersama;
-        final isCuti   = libur != null && libur.isCutiBersama;
+        final libur = HariLiburIndonesia.get(date);
+        final isLibur = libur != null && !libur.isCutiBersama;
+        final isCuti = libur != null && libur.isCutiBersama;
 
         // Warna angka tanggal
         Color textColor;
@@ -254,74 +284,69 @@ class _WeekCalendarWidgetState extends State<WeekCalendarWidget> {
         return Expanded(
           child: GestureDetector(
             onTap: () => _onTapDate(date),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                margin: const EdgeInsets.symmetric(horizontal: 1),
-                height: 44,
-                decoration: BoxDecoration(
-                  color: selected
-                      ? const Color(0xFFE62727)
-                      : today
-                      ? const Color(0xFFFDFCFC)
-                      : Colors.transparent,
-
-                  borderRadius: BorderRadius.circular(8),
-
-                  border: selected
-                      ? Border.all(color: Colors.black, width: 2)
-                      : today
-                      ? Border.all(color: Colors.black, width: 2)
-                      : null,
-
-                  boxShadow: selected
-                      ? [
-                    const BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(2, 3),
-                      blurRadius: 0,
-                    ),
-                  ]
-                      : today
-                      ? [
-                    const BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(2, 3),
-                      blurRadius: 0,
-                    ),
-                  ]
-                      : [],
-                ),
-
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${date.day}',
-                      style: GoogleFonts.russoOne(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: textColor,
-                      ),
-                    ),
-
-                    if (libur != null && !selected)
-                      Container(
-                        width: 4,
-                        height: 4,
-                        margin: const EdgeInsets.only(top: 2),
-                        decoration: BoxDecoration(
-                          color: isLibur
-                              ? const Color(0xFFB22222)
-                              : const Color(0xFFD97706),
-                          border: Border.all(color: Colors.black, width: 1),
-                          shape: BoxShape.circle,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              margin: const EdgeInsets.symmetric(horizontal: 1),
+              height: 44,
+              decoration: BoxDecoration(
+                color: selected
+                    ? const Color(0xFFE62727)
+                    : today
+                        ? const Color(0xFFFDFCFC)
+                        : Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+                border: selected
+                    ? Border.all(color: Colors.black, width: 2)
+                    : today
+                        ? Border.all(color: Colors.black, width: 2)
+                        : null,
+                boxShadow: selected
+                    ? [
+                        const BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(2, 3),
+                          blurRadius: 0,
                         ),
-                      )
-                    else
-                      const SizedBox(height: 6),
-                  ],
-                ),
+                      ]
+                    : today
+                        ? [
+                            const BoxShadow(
+                              color: Colors.black,
+                              offset: Offset(2, 3),
+                              blurRadius: 0,
+                            ),
+                          ]
+                        : [],
               ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${date.day}',
+                    style: GoogleFonts.russoOne(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: textColor,
+                    ),
+                  ),
+                  if (libur != null && !selected)
+                    Container(
+                      width: 4,
+                      height: 4,
+                      margin: const EdgeInsets.only(top: 2),
+                      decoration: BoxDecoration(
+                        color: isLibur
+                            ? const Color(0xFFB22222)
+                            : const Color(0xFFD97706),
+                        border: Border.all(color: Colors.black, width: 1),
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                  else
+                    const SizedBox(height: 6),
+                ],
+              ),
+            ),
           ),
         );
       }),
@@ -333,7 +358,6 @@ class _WeekCalendarWidgetState extends State<WeekCalendarWidget> {
 //  INFO CARD — Detail tanggal yang dipilih
 // =============================================================
 class _InfoCard extends StatelessWidget {
-
   final DateTime date;
   final List<String> bulanPanjang;
   final List<String> hariPanjang;
@@ -355,10 +379,9 @@ class _InfoCard extends StatelessWidget {
     final libur = HariLiburIndonesia.get(date);
 
     return Container(
-      margin: margin
-          ?? const EdgeInsets.symmetric(horizontal: 20),
-      padding: padding
-          ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 100),
+      margin: margin ?? const EdgeInsets.symmetric(horizontal: 20),
+      padding:
+          padding ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 100),
       decoration: BoxDecoration(
         color: const Color(0xFFFFE1AF),
         borderRadius: BorderRadius.circular(15),
@@ -382,7 +405,7 @@ class _InfoCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 '${hariPanjang[date.weekday % 7]}, '
-                    '${date.day} ${bulanPanjang[date.month - 1]} ${date.year}',
+                '${date.day} ${bulanPanjang[date.month - 1]} ${date.year}',
                 style: GoogleFonts.russoOne(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -397,8 +420,7 @@ class _InfoCard extends StatelessWidget {
           if (libur != null) ...[
             const SizedBox(height: 10),
             Container(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: libur.isCutiBersama
                     ? const Color(0xFFF8C471)
@@ -414,7 +436,7 @@ class _InfoCard extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black,
                     blurRadius: 0,
-                    offset: const Offset(0,3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -495,12 +517,12 @@ class _NavButtonState extends State<_NavButton> {
           boxShadow: _pressed
               ? []
               : [
-            const BoxShadow(
-              color: Colors.black,
-              offset: Offset(0, 2), // arah bayangan
-              blurRadius: 0,        // biar tajam (retro)
-            ),
-          ],
+                  const BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(0, 2), // arah bayangan
+                    blurRadius: 0, // biar tajam (retro)
+                  ),
+                ],
         ),
         child: Center(
           child: Text(

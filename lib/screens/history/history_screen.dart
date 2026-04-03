@@ -190,9 +190,12 @@ class _HistoryCardState extends State<_HistoryCard> {
                       color: const Color(0xFFE53935),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.black, width: 1.5),
-                      boxShadow: isPressed ? [] : const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
+                      boxShadow: isPressed
+                          ? []
+                          : const [
+                              BoxShadow(
+                                  color: Colors.black, offset: Offset(0, 4)),
+                            ],
                     ),
                     child:
                         const Icon(Icons.delete, size: 16, color: Colors.white),

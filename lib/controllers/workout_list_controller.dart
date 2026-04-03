@@ -3,22 +3,28 @@ import 'package:flutter/foundation.dart';
 import '../models/models.dart';
 import '../repository/repository.dart';
 
-/// Manages the list of all saved workouts.
-/// Provides load, delete, and refresh operations.
 class WorkoutListController extends ChangeNotifier {
   WorkoutListController({required WorkoutRepository repository})
       : _repository = repository;
 
+  // ── Dependencies ──────────────────────────────────────────────────────────────
+
   final WorkoutRepository _repository;
+
+  // ── State ─────────────────────────────────────────────────────────────────────
 
   List<Workout> _workouts = [];
   bool _isLoading = false;
   String? _error;
 
+  // ── Getters ───────────────────────────────────────────────────────────────────
+
   List<Workout> get workouts => _workouts;
   bool get isLoading => _isLoading;
   String? get error => _error;
   List<String> get workoutNames => _workouts.map((w) => w.name).toList();
+
+  // ── Actions ───────────────────────────────────────────────────────────────────
 
   Future<void> load() async {
     _isLoading = true;

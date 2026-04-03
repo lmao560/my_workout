@@ -39,8 +39,8 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
           canPop: false,
           onPopInvoked: (didPop) async {
             if (didPop) return;
-            final hasChanges = controller.name.isNotEmpty ||
-                controller.exercises.isNotEmpty;
+            final hasChanges =
+                controller.name.isNotEmpty || controller.exercises.isNotEmpty;
 
             if (!hasChanges) {
               Navigator.of(context).pop();
@@ -82,254 +82,274 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
               Navigator.of(context).pop();
             }
           },
-
           child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: const Color(0xFFFDE7B3),
-          appBar: AppBar(
+            resizeToAvoidBottomInset: true,
             backgroundColor: const Color(0xFFFDE7B3),
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            centerTitle: true,
-            title: Text(
-              'WORKOUT',
-              selectionColor: Colors.black,
-              style: GoogleFonts.pressStart2p(
-                fontSize: 26,
-                letterSpacing: 2,
+            appBar: AppBar(
+              backgroundColor: const Color(0xFFFDE7B3),
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              centerTitle: true,
+              title: Text(
+                'WORKOUT',
+                selectionColor: Colors.black,
+                style: GoogleFonts.pressStart2p(
+                  fontSize: 26,
+                  letterSpacing: 2,
+                ),
               ),
             ),
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height
-              - MediaQuery.of(context).padding.top
-              - kToolbarHeight
-                    - 8,
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WeekCalendarWidget(
-                  showInfoCard: false,
-                  height: 15,
-                  margin: const EdgeInsets.symmetric(vertical: 2),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  onDateSelected: (date) {
-                    print(date);
-                  },
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFE1AF),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.black, width: 2),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
+                height: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    kToolbarHeight -
+                    8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    WeekCalendarWidget(
+                      showInfoCard: false,
+                      height: 15,
+                      margin: const EdgeInsets.symmetric(vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      onDateSelected: (date) {
+                        print(date);
+                      },
                     ),
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // Red name field
-                        Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE53935),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.black, width: 2),
-                            boxShadow: const [
-                              BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                            ],
-                          ),
-                          child: TextFormField(
-                            initialValue: controller.name,
-                            style: GoogleFonts.russoOne(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Judul',
-                              hintStyle: GoogleFonts.russoOne(
-                                color: Colors.white70,
-                                fontSize: 20,
-                                letterSpacing: 1.5,
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                            ),
-                            onChanged: controller.setName,
-                          ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFE1AF),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black, width: 2),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.black, offset: Offset(0, 4)),
+                          ],
                         ),
-
-                        Consumer<WorkoutBuilderController>(
-                          builder: (_, controller, __) {
-                            final error = controller.nameError;
-                            if (error == null) return const SizedBox.shrink();
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 6, left: 4),
-                              child: Text(
-                                error,
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // Red name field
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE53935),
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0, 4)),
+                                ],
+                              ),
+                              child: TextFormField(
+                                initialValue: controller.name,
                                 style: GoogleFonts.russoOne(
-                                  color: Color(0xFFE53935),
-                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-
-                        const SizedBox(height: 12),
-
-                        // Exercise list
-                        Expanded(
-                          child: controller.exercises.isEmpty
-                              ? const SizedBox.shrink()
-                              : ReorderableListView.builder(
-                            shrinkWrap: true,
-                            itemCount: controller.exercises.length,
-                            onReorder: controller.reorderExercises,
-                            proxyDecorator: (child, _, __) => child,
-                            itemBuilder: (context, i) {
-                              final ex = controller.exercises[i];
-                              return _ExerciseTile(
-                                key: ValueKey(ex.id),
-                                exercise: ex,
-                                onEdit: () => _openExerciseForm(
-                                    context, controller,
-                                    existing: ex),
-                                onDelete: () =>
-                                    controller.removeExercise(ex.id),
-                              );
-                            },
-                          ),
-                        ),
-
-                        // Tambah Kegiatan button
-                        AnimatedButton(
-                          onTap: () => _openExerciseForm(context, controller),
-                          builder: (isPressed) => Container(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF5D79E),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.black, width: 2),
-                              boxShadow: isPressed ? [] : const [
-                                BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.add, color: Colors.black, size: 20),
-                                SizedBox(width: 6),
-                                Text(
-                                  'Tambah Kegiatan',
-                                  style: GoogleFonts.russoOne(
-                                    color: Colors.black,
-                                    fontSize: 14,
+                                decoration: InputDecoration(
+                                  hintText: 'Judul',
+                                  hintStyle: GoogleFonts.russoOne(
+                                    color: Colors.white70,
+                                    fontSize: 20,
                                     letterSpacing: 1.5,
                                   ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 12),
                                 ),
-                              ],
+                                onChanged: controller.setName,
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
-                const SizedBox(height: 16),
+                            Consumer<WorkoutBuilderController>(
+                              builder: (_, controller, __) {
+                                final error = controller.nameError;
+                                if (error == null)
+                                  return const SizedBox.shrink();
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 6, left: 4),
+                                  child: Text(
+                                    error,
+                                    style: GoogleFonts.russoOne(
+                                      color: Color(0xFFE53935),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
 
-                Consumer<WorkoutBuilderController>(
-                  builder: (_, controller, __) {
-                    final error = controller.exerciseCountError;
-                    if (error == null) return const SizedBox.shrink();
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE53935).withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: const Color(0xFFE53935),
-                            width: 1.5,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.warning_amber_rounded,
-                                color: Color(0xFFE53935), size: 16),
-                            const SizedBox(width: 8),
-                            Text(
-                              error,
-                              style: GoogleFonts.russoOne(
-                                color: Color(0xFFE53935),
-                                fontSize: 12,
+                            const SizedBox(height: 12),
+
+                            // Exercise list
+                            Expanded(
+                              child: controller.exercises.isEmpty
+                                  ? const SizedBox.shrink()
+                                  : ReorderableListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: controller.exercises.length,
+                                      onReorder: controller.reorderExercises,
+                                      proxyDecorator: (child, _, __) => child,
+                                      itemBuilder: (context, i) {
+                                        final ex = controller.exercises[i];
+                                        return _ExerciseTile(
+                                          key: ValueKey(ex.id),
+                                          exercise: ex,
+                                          onEdit: () => _openExerciseForm(
+                                              context, controller,
+                                              existing: ex),
+                                          onDelete: () =>
+                                              controller.removeExercise(ex.id),
+                                        );
+                                      },
+                                    ),
+                            ),
+
+                            // Tambah Kegiatan button
+                            AnimatedButton(
+                              onTap: () =>
+                                  _openExerciseForm(context, controller),
+                              builder: (isPressed) => Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF5D79E),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border:
+                                      Border.all(color: Colors.black, width: 2),
+                                  boxShadow: isPressed
+                                      ? []
+                                      : const [
+                                          BoxShadow(
+                                              color: Colors.black,
+                                              offset: Offset(0, 4)),
+                                        ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add,
+                                        color: Colors.black, size: 20),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      'Tambah Kegiatan',
+                                      style: GoogleFonts.russoOne(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    );
-                  },
-                ),
-
-                // CREATE / UPDATE button
-                AnimatedButton(
-                  onTap: controller.canSave && !controller.isSaving
-                      ? () => _save(context, controller)
-                      : null,
-                  sound: WorkoutSound.create,
-                  builder: (isPressed) => Container(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                      color: controller.canSave
-                          ? const Color(0xFFEEFF5E)
-                          : const Color(0xFFD4D4AA),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: Colors.black, width: 2),
-                      boxShadow: isPressed ? [] : const [
-                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                      ],
                     ),
-                    child: Center(
-                      child: controller.isSaving
-                          ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                          : Text(
-                        widget.existing == null ? 'CREATE' : 'UPDATE',
-                        style: GoogleFonts.russoOne(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          letterSpacing: 2,
+
+                    const SizedBox(height: 16),
+
+                    Consumer<WorkoutBuilderController>(
+                      builder: (_, controller, __) {
+                        final error = controller.exerciseCountError;
+                        if (error == null) return const SizedBox.shrink();
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE53935).withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: const Color(0xFFE53935),
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.warning_amber_rounded,
+                                    color: Color(0xFFE53935), size: 16),
+                                const SizedBox(width: 8),
+                                Text(
+                                  error,
+                                  style: GoogleFonts.russoOne(
+                                    color: Color(0xFFE53935),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    // CREATE / UPDATE button
+                    AnimatedButton(
+                      onTap: controller.canSave && !controller.isSaving
+                          ? () => _save(context, controller)
+                          : null,
+                      sound: WorkoutSound.create,
+                      builder: (isPressed) => Container(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          color: controller.canSave
+                              ? const Color(0xFFEEFF5E)
+                              : const Color(0xFFD4D4AA),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: Colors.black, width: 2),
+                          boxShadow: isPressed
+                              ? []
+                              : const [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0, 4)),
+                                ],
+                        ),
+                        child: Center(
+                          child: controller.isSaving
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                )
+                              : Text(
+                                  widget.existing == null ? 'CREATE' : 'UPDATE',
+                                  style: GoogleFonts.russoOne(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    letterSpacing: 2,
+                                  ),
+                                ),
                         ),
                       ),
                     ),
-                  ),
+
+                    const SizedBox(height: 20),
+
+                    if (controller.error != null)
+                      Text(controller.error!,
+                          style: GoogleFonts.russoOne(color: Colors.red)),
+                  ],
                 ),
-
-                const SizedBox(height: 20),
-
-                if (controller.error != null)
-                  Text(controller.error!,
-                      style: GoogleFonts.russoOne(color: Colors.red)),
-              ],
+              ),
             ),
-          ),
-          ),
           ),
         );
       },
@@ -489,9 +509,11 @@ class _ActionButton extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.black, width: 1.5),
-          boxShadow: isPressed ? [] : const [
-            BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-          ],
+          boxShadow: isPressed
+              ? []
+              : const [
+                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                ],
         ),
         child: Text(
           label,
@@ -560,7 +582,8 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
 
           Text(
             'Detail Kegiatan',
-            style: GoogleFonts.russoOne(fontWeight: FontWeight.bold, fontSize: 18),
+            style:
+                GoogleFonts.russoOne(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           const SizedBox(height: 16),
 
@@ -686,9 +709,11 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
                     : const Color(0xFFB22222),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.black, width: 2),
-                boxShadow: isPressed ? [] : const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                ],
+                boxShadow: isPressed
+                    ? []
+                    : const [
+                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                      ],
               ),
               child: Center(
                 child: Text(
@@ -785,7 +810,7 @@ class _StyledTextField extends StatelessWidget {
           ),
           border: InputBorder.none,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         ),
         onChanged: onChanged,
       ),
@@ -837,9 +862,11 @@ class _NumberField extends StatelessWidget {
                 color: const Color(0xFFFFC107),
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(color: Colors.black, width: 1.5),
-                boxShadow: isPressed ? [] : const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                ],
+                boxShadow: isPressed
+                    ? []
+                    : const [
+                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                      ],
               ),
               child: const Icon(Icons.remove, size: 16),
             ),
@@ -849,7 +876,8 @@ class _NumberField extends StatelessWidget {
             child: Text(
               '$value',
               textAlign: TextAlign.center,
-              style: GoogleFonts.russoOne(fontWeight: FontWeight.bold, fontSize: 16),
+              style: GoogleFonts.russoOne(
+                  fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ),
           AnimatedButton(
@@ -861,9 +889,11 @@ class _NumberField extends StatelessWidget {
                 color: const Color(0xFFFFC107),
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(color: Colors.black, width: 1.5),
-                boxShadow: isPressed ? [] : const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 4)),
-                ],
+                boxShadow: isPressed
+                    ? []
+                    : const [
+                        BoxShadow(color: Colors.black, offset: Offset(0, 4)),
+                      ],
               ),
               child: const Icon(Icons.add, size: 16),
             ),

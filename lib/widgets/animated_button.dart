@@ -49,15 +49,13 @@ class _AnimatedButtonState extends State<AnimatedButton> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 60),
         curve: Curves.easeInOut,
-        // Efek arcade: tombol "turun" saat ditekan
         transform: _isPressed
-            ? (Matrix4.identity()..translate(0.0, 4.0)) // ← geser ke bawah
+            ? (Matrix4.identity()..translate(0.0, 4.0))
             : Matrix4.identity(),
         decoration: _isPressed
             ? BoxDecoration(
-          // Shadow hilang saat ditekan = efek tombol arcade
-          borderRadius: _getBorderRadius(),
-        )
+                borderRadius: _getBorderRadius(),
+              )
             : null,
         child: _ArcadeButtonWrapper(
           isPressed: _isPressed,
@@ -67,11 +65,9 @@ class _AnimatedButtonState extends State<AnimatedButton> {
     );
   }
 
-  // Ambil border radius dari child jika ada
   BorderRadius? _getBorderRadius() => null;
 }
 
-// Wrapper yang menghilangkan shadow saat pressed
 class _ArcadeButtonWrapper extends StatelessWidget {
   const _ArcadeButtonWrapper({
     required this.isPressed,
@@ -85,8 +81,6 @@ class _ArcadeButtonWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isPressed) return child;
 
-    // Saat ditekan: hilangkan boxShadow dari Container anak
-    // dengan wrap menggunakan opacity sedikit lebih gelap
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
         Colors.black.withOpacity(0.08),
