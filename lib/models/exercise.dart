@@ -58,7 +58,7 @@ class Exercise {
     name: json['name'] as String,
     type: ExerciseType.values.byName(json['type'] as String),
     sets: json['sets'] as int,
-    reps: json['reps' ] as int ?? 10,
+    reps: json['reps'] as int ?? 10,
     duration: json['durationSeconds'] != null
         ? Duration(seconds: json['durationSeconds'] as int)
         : null,

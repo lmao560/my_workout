@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/screens/history/history_screen.dart';
@@ -6,15 +7,25 @@ import 'package:workout_app/screens/history/history_screen.dart';
 import 'controllers/schedule_controller.dart';
 import 'controllers/workout_builder_controller.dart';
 import 'controllers/workout_list_controller.dart';
+import 'repository/hive_repository.dart';
 import 'controllers/history_controller.dart';
-import 'repository/in_memory_repository.dart';
 import 'screens/builder/workout_list_screen.dart';
 
-final workoutRepo = InMemoryWorkoutRepository();
-final planRepo = InMemoryWorkoutPlanRepository();
-final historyRepo = InMemoryHistoryRepository();
+final workoutRepo = HiveWorkoutRepository();
+final planRepo = HiveWorkoutPlanRepository();
+final historyRepo = HiveHistoryRepository();
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  await Hive.openBox('workouts');
+  await Hive.openBox('plans');
+  await Hive.openBox('history');
+
+  debugPrint('🚀 HIVE READY - workouts: ${Hive.box('workouts').length}');
+
   // ── Repositories (swap to Hive/` SQLite here, nothing else changes) ──────────
   runApp(
     MultiProvider(
