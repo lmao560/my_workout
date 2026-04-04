@@ -66,6 +66,7 @@ class WorkoutApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
+        fontFamily: 'RussoOne',
       ),
       home: const MainShell(),
     );

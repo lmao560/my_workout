@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/widgets/week_calender_widget.dart';
 import 'package:workout_app/widgets/animated_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../controllers/workout_controller.dart';
 import '../../services/sound_service.dart';
@@ -31,10 +30,11 @@ class WorkoutSessionScreen extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
             ),
             centerTitle: true,
-            title: Text(
+            title: const Text(
               'PLAYING',
               selectionColor: Colors.black,
-              style: GoogleFonts.pressStart2p(
+              style: TextStyle(
+                fontFamily: 'PressStart2P',
                 fontSize: 26,
                 letterSpacing: 1.5,
               ),
@@ -85,7 +85,8 @@ class WorkoutSessionScreen extends StatelessWidget {
                               horizontal: 16, vertical: 12),
                           child: Text(
                             workout.name,
-                            style: GoogleFonts.russoOne(
+                            style: const TextStyle(
+                              fontFamily: 'RussoOne',
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -164,10 +165,11 @@ class WorkoutSessionScreen extends StatelessWidget {
                                   color: Colors.black, offset: Offset(0, 4)),
                             ],
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'COMPLETE',
-                        style: GoogleFonts.russoOne(
+                        style: TextStyle(
+                          fontFamily: 'RussoOne',
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -312,7 +314,8 @@ class _SessionExerciseTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   exercise.name,
-                  style: GoogleFonts.russoOne(
+                  style: TextStyle(
+                    fontFamily: 'RussoOne',
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: isDone ? Colors.white : Colors.black,
@@ -326,7 +329,8 @@ class _SessionExerciseTile extends StatelessWidget {
                 exercise.type == ExerciseType.repetition
                     ? '${exercise.reps} × ${exercise.sets}'
                     : '× ${exercise.sets}',
-                style: GoogleFonts.russoOne(
+                style: const TextStyle(
+                  fontFamily: 'RussoOne',
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                   color: Colors.black,
@@ -340,7 +344,7 @@ class _SessionExerciseTile extends StatelessWidget {
                   width: 26,
                   height: 31,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF5AD18), // kuning
+                    color: const Color(0xFFF5AD18),
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(color: Colors.black, width: 1.5),
                     boxShadow: const [
@@ -381,9 +385,10 @@ class _SessionExerciseTile extends StatelessWidget {
                                   color: Colors.black, offset: Offset(0, 4)),
                             ],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Start',
-                      style: GoogleFonts.russoOne(
+                      style: TextStyle(
+                        fontFamily: 'RussoOne',
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
                         color: Colors.black,
@@ -428,7 +433,8 @@ class _ActiveInfo extends StatelessWidget {
         children: [
           Text(
             'Set ${progress.currentSet}/${progress.exercise.sets}  $phaseLabel',
-            style: GoogleFonts.russoOne(
+            style: const TextStyle(
+              fontFamily: 'RussoOne',
               fontWeight: FontWeight.bold,
               fontSize: 13,
               color: Colors.black,
@@ -440,7 +446,8 @@ class _ActiveInfo extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               _formatTime(progress.remainingTime!),
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
                 color: Colors.black,
@@ -467,9 +474,10 @@ class _ActiveInfo extends StatelessWidget {
                           BoxShadow(color: Colors.black, offset: Offset(0, 4)),
                         ],
                 ),
-                child: Text(
+                child: const Text(
                   'Next Set',
-                  style: GoogleFonts.russoOne(
+                  style: TextStyle(
+                    fontFamily: 'RussoOne',
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
@@ -518,7 +526,8 @@ class _SmallButton extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.russoOne(
+          style: const TextStyle(
+            fontFamily: 'RussoOne',
             fontWeight: FontWeight.bold,
             fontSize: 12,
             color: Colors.black,
@@ -631,7 +640,8 @@ class _RetroPhotoFrame extends StatelessWidget {
             child: Text(
               label,
               textAlign: TextAlign.center,
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 color: Color(0xFFF4F754),
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -685,10 +695,11 @@ class _CompletedView extends StatelessWidget {
                                 color: Colors.black, offset: Offset(0, 4)),
                           ],
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'DONE',
-                      style: GoogleFonts.russoOne(
+                      style: TextStyle(
+                        fontFamily: 'RussoOne',
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         letterSpacing: 2,

@@ -1,7 +1,4 @@
-// lib/screens/history/history_screen.dart
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/widgets/animated_button.dart';
 import 'package:workout_app/widgets/week_calender_widget.dart';
@@ -58,11 +55,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 }
 
                 if (controller.history.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Text(
-                      'Belum ada workout\nyang diselesaikan.',
+                      'No workouts\nhave been completed yet.',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.pressStart2p(
+                      style: TextStyle(
+                        fontFamily: 'PressStart2P',
                         fontSize: 11,
                         color: Colors.black38,
                       ),
@@ -138,7 +136,8 @@ class _HistoryCardState extends State<_HistoryCard> {
                 Expanded(
                   child: Text(
                     h.workoutName,
-                    style: GoogleFonts.russoOne(
+                    style: const TextStyle(
+                      fontFamily: 'RussoOne',
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -213,9 +212,10 @@ class _HistoryCardState extends State<_HistoryCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
+                  const Text(
                     'EXERCISES',
-                    style: GoogleFonts.pressStart2p(
+                    style: TextStyle(
+                      fontFamily: 'RussoOne',
                       fontSize: 9,
                       letterSpacing: 1,
                       color: Colors.black54,
@@ -292,7 +292,8 @@ class _ExerciseResultTile extends StatelessWidget {
           Expanded(
             child: Text(
               result.exerciseName,
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
                 color: Colors.black,
@@ -301,7 +302,8 @@ class _ExerciseResultTile extends StatelessWidget {
           ),
           Text(
             detail,
-            style: GoogleFonts.russoOne(
+            style: const TextStyle(
+              fontFamily: 'RussoOne',
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: Colors.black,
@@ -345,7 +347,8 @@ class _InfoChip extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: GoogleFonts.russoOne(
+            style: const TextStyle(
+              fontFamily: 'RussoOne',
               fontSize: 11,
               fontWeight: FontWeight.bold,
               color: Colors.black,

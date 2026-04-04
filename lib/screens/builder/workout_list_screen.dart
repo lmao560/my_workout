@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/widgets/week_calender_widget.dart';
 import 'package:workout_app/widgets/animated_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_app/main.dart';
 
 import '../../controllers/workout_controller.dart';
@@ -81,7 +80,8 @@ class _WorkoutListScreenState extends State<WorkoutListScreen> {
                   return Center(
                     child: Text('No workouts yet.\nTap + to create one.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.pressStart2p(
+                        style: TextStyle(
+                          fontFamily: 'PressStart2P',
                           color: Colors.black.withOpacity(0.3),
                           fontSize: 12,
                           letterSpacing: 1,
@@ -126,7 +126,7 @@ class _WorkoutTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF06923E), // hijau
+        color: const Color(0xFF06923E),
         borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.black, width: 2),
         boxShadow: const [
@@ -143,7 +143,8 @@ class _WorkoutTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   workout.name,
-                  style: GoogleFonts.russoOne(
+                  style: const TextStyle(
+                    fontFamily: 'RussoOne',
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     color: Colors.black,
@@ -184,7 +185,7 @@ class _WorkoutTile extends StatelessWidget {
                 children: [
                   _TileButton(
                     label: 'Edit',
-                    color: const Color(0xFFC0F21B), // hijau muda
+                    color: const Color(0xFFC0F21B),
                     onTap: () => Navigator.of(context)
                         .push(MaterialPageRoute(
                           builder: (_) =>
@@ -196,13 +197,13 @@ class _WorkoutTile extends StatelessWidget {
                   const SizedBox(width: 4),
                   _TileButton(
                     label: 'Copy',
-                    color: const Color(0xFF9C27B0), // ungu
+                    color: const Color(0xFF9C27B0),
                     onTap: () => _duplicateWorkout(context),
                   ),
                   const SizedBox(width: 4),
                   _TileButton(
                     label: 'Delete',
-                    color: const Color(0xFFF82D30), // merah
+                    color: const Color(0xFFF82D30),
                     onTap: () => _confirmDelete(context),
                   ),
                   const SizedBox(width: 4),
@@ -308,7 +309,8 @@ class _TileButton extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
                 color: Colors.black,
@@ -356,7 +358,8 @@ class _WorkoutPreviewCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Text(
               workout.name,
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -385,10 +388,11 @@ class _WorkoutPreviewCard extends StatelessWidget {
                         BoxShadow(color: Colors.black, offset: Offset(0, 4)),
                       ],
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   'CLOSE',
-                  style: GoogleFonts.russoOne(
+                  style: TextStyle(
+                    fontFamily: 'RussoOne',
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -430,7 +434,8 @@ class _PreviewExerciseTile extends StatelessWidget {
           Expanded(
             child: Text(
               exercise.name,
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
                 color: Colors.black,
@@ -441,7 +446,8 @@ class _PreviewExerciseTile extends StatelessWidget {
             exercise.type == ExerciseType.repetition
                 ? '${exercise.reps} × ${exercise.sets}'
                 : '× ${exercise.sets}',
-            style: GoogleFonts.russoOne(
+            style: const TextStyle(
+              fontFamily: 'RussoOne',
               fontWeight: FontWeight.bold,
               fontSize: 14,
               color: Colors.black,

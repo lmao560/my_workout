@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/services/sound_service.dart';
 import 'package:workout_app/widgets/animated_button.dart';
@@ -52,9 +51,10 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                   borderRadius: BorderRadius.circular(16),
                   side: const BorderSide(color: Colors.black, width: 2),
                 ),
-                title: Text(
+                title: const Text(
                   'Keluar?',
-                  style: GoogleFonts.russoOne(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontFamily: 'RussoOne', fontWeight: FontWeight.bold),
                 ),
                 content: const Text(
                   'Perubahan yang belum disimpan akan hilang.',
@@ -66,9 +66,11 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context, true),
-                    child: Text(
+                    child: const Text(
                       'Keluar',
-                      style: GoogleFonts.russoOne(
+                      style: TextStyle(
+                          fontFamily: 'RussoOne',
+                          fontSize: 16,
                           color: const Color(0xFFE53935)),
                     ),
                   ),
@@ -90,14 +92,14 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                 onPressed: () => Navigator.of(context).pop(),
               ),
               centerTitle: true,
-              title: Text(
+              title: const Text(
                 'WORKOUT',
-                style: GoogleFonts.pressStart2p(fontSize: 26, letterSpacing: 2),
+                style: TextStyle(
+                    fontFamily: 'PressStart2P', fontSize: 26, letterSpacing: 2),
               ),
             ),
             body: SingleChildScrollView(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height -
                     MediaQuery.of(context).padding.top -
@@ -135,7 +137,7 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                                 color: const Color(0xFFE53935),
                                 borderRadius: BorderRadius.circular(12),
                                 border:
-                                Border.all(color: Colors.black, width: 2),
+                                    Border.all(color: Colors.black, width: 2),
                                 boxShadow: const [
                                   BoxShadow(
                                       color: Colors.black,
@@ -144,20 +146,22 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                               ),
                               child: TextFormField(
                                 initialValue: controller.name,
-                                style: GoogleFonts.russoOne(
+                                style: const TextStyle(
+                                  fontFamily: 'RussoOne',
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
-                                decoration: InputDecoration(
-                                  hintText: 'Judul',
-                                  hintStyle: GoogleFonts.russoOne(
+                                decoration: const InputDecoration(
+                                  hintText: 'Title',
+                                  hintStyle: TextStyle(
+                                    fontFamily: 'RussoOne',
                                     color: Colors.white70,
                                     fontSize: 20,
                                     letterSpacing: 1.5,
                                   ),
                                   border: InputBorder.none,
-                                  contentPadding: const EdgeInsets.symmetric(
+                                  contentPadding: EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 12),
                                 ),
                                 onChanged: controller.setName,
@@ -168,13 +172,16 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                             Consumer<WorkoutBuilderController>(
                               builder: (_, ctrl, __) {
                                 final error = ctrl.nameError;
-                                if (error == null) return const SizedBox.shrink();
+                                if (error == null)
+                                  return const SizedBox.shrink();
                                 return Padding(
-                                  padding: const EdgeInsets.only(top: 6, left: 4),
+                                  padding:
+                                      const EdgeInsets.only(top: 6, left: 4),
                                   child: Text(
                                     error,
-                                    style: GoogleFonts.russoOne(
-                                      color: const Color(0xFFE53935),
+                                    style: const TextStyle(
+                                      fontFamily: 'RussoOne',
+                                      color: Color(0xFFE53935),
                                       fontSize: 12,
                                     ),
                                   ),
@@ -189,23 +196,23 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                               child: controller.exercises.isEmpty
                                   ? const SizedBox.shrink()
                                   : ReorderableListView.builder(
-                                shrinkWrap: true,
-                                itemCount: controller.exercises.length,
-                                onReorder: controller.reorderExercises,
-                                proxyDecorator: (child, _, __) => child,
-                                itemBuilder: (context, i) {
-                                  final ex = controller.exercises[i];
-                                  return _ExerciseTile(
-                                    key: ValueKey(ex.id),
-                                    exercise: ex,
-                                    onEdit: () => _openExerciseForm(
-                                        context, controller,
-                                        existing: ex),
-                                    onDelete: () =>
-                                        controller.removeExercise(ex.id),
-                                  );
-                                },
-                              ),
+                                      shrinkWrap: true,
+                                      itemCount: controller.exercises.length,
+                                      onReorder: controller.reorderExercises,
+                                      proxyDecorator: (child, _, __) => child,
+                                      itemBuilder: (context, i) {
+                                        final ex = controller.exercises[i];
+                                        return _ExerciseTile(
+                                          key: ValueKey(ex.id),
+                                          exercise: ex,
+                                          onEdit: () => _openExerciseForm(
+                                              context, controller,
+                                              existing: ex),
+                                          onDelete: () =>
+                                              controller.removeExercise(ex.id),
+                                        );
+                                      },
+                                    ),
                             ),
 
                             // Add exercise button
@@ -213,30 +220,31 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                               onTap: () =>
                                   _openExerciseForm(context, controller),
                               builder: (isPressed) => Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 14),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF5D79E),
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                      color: Colors.black, width: 2),
+                                  border:
+                                      Border.all(color: Colors.black, width: 2),
                                   boxShadow: isPressed
                                       ? []
                                       : const [
-                                    BoxShadow(
-                                        color: Colors.black,
-                                        offset: Offset(0, 4))
-                                  ],
+                                          BoxShadow(
+                                              color: Colors.black,
+                                              offset: Offset(0, 4))
+                                        ],
                                 ),
-                                child: Row(
+                                child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.add,
+                                    Icon(Icons.add,
                                         color: Colors.black, size: 20),
-                                    const SizedBox(width: 6),
+                                    SizedBox(width: 6),
                                     Text(
-                                      'Tambah Kegiatan',
-                                      style: GoogleFonts.russoOne(
+                                      'Add Exercise',
+                                      style: TextStyle(
+                                        fontFamily: 'RussoOne',
                                         color: Colors.black,
                                         fontSize: 14,
                                         letterSpacing: 1.5,
@@ -276,8 +284,9 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                                 const SizedBox(width: 8),
                                 Text(
                                   error,
-                                  style: GoogleFonts.russoOne(
-                                    color: const Color(0xFFE53935),
+                                  style: const TextStyle(
+                                    fontFamily: 'RussoOne',
+                                    color: Color(0xFFE53935),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -295,8 +304,7 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                           : null,
                       sound: WorkoutSound.create,
                       builder: (isPressed) => Container(
-                        padding:
-                        const EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         decoration: BoxDecoration(
                           color: controller.canSave
                               ? const Color(0xFFEEFF5E)
@@ -306,30 +314,28 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
                           boxShadow: isPressed
                               ? []
                               : const [
-                            BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(0, 4))
-                          ],
+                                  BoxShadow(
+                                      color: Colors.black, offset: Offset(0, 4))
+                                ],
                         ),
                         child: Center(
                           child: controller.isSaving
                               ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                                strokeWidth: 2),
-                          )
+                                  width: 20,
+                                  height: 20,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                )
                               : Text(
-                            widget.existing == null
-                                ? 'CREATE'
-                                : 'UPDATE',
-                            style: GoogleFonts.russoOne(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              letterSpacing: 2,
-                            ),
-                          ),
+                                  widget.existing == null ? 'CREATE' : 'UPDATE',
+                                  style: const TextStyle(
+                                    fontFamily: 'RussoOne',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    letterSpacing: 2,
+                                  ),
+                                ),
                         ),
                       ),
                     ),
@@ -338,7 +344,8 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
 
                     if (controller.error != null)
                       Text(controller.error!,
-                          style: GoogleFonts.russoOne(color: Colors.red)),
+                          style: const TextStyle(
+                              fontFamily: 'RussoOne', color: Colors.red)),
                   ],
                 ),
               ),
@@ -356,10 +363,10 @@ class _WorkoutBuilderScreenState extends State<WorkoutBuilderScreen> {
   }
 
   void _openExerciseForm(
-      BuildContext context,
-      WorkoutBuilderController ctrl, {
-        Exercise? existing,
-      }) {
+    BuildContext context,
+    WorkoutBuilderController ctrl, {
+    Exercise? existing,
+  }) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -418,7 +425,8 @@ class _ExerciseTile extends StatelessWidget {
           Expanded(
             child: Text(
               exercise.name.isEmpty ? '(Unnamed)' : exercise.name,
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
                 color: Colors.black,
@@ -429,7 +437,8 @@ class _ExerciseTile extends StatelessWidget {
             exercise.type == ExerciseType.repetition
                 ? '${exercise.reps} × ${exercise.sets}'
                 : '× ${exercise.sets}',
-            style: GoogleFonts.russoOne(
+            style: const TextStyle(
+              fontFamily: 'RussoOne',
               fontWeight: FontWeight.bold,
               fontSize: 14,
               color: Colors.black,
@@ -456,9 +465,7 @@ class _ExerciseTile extends StatelessWidget {
               label: 'Edit', color: const Color(0xFFEEFF5E), onTap: onEdit),
           const SizedBox(width: 2),
           _ActionButton(
-              label: 'Delete',
-              color: const Color(0xFFE53935),
-              onTap: onDelete),
+              label: 'Delete', color: const Color(0xFFE53935), onTap: onDelete),
         ],
       ),
     );
@@ -494,7 +501,8 @@ class _ActionButton extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.russoOne(
+          style: const TextStyle(
+            fontFamily: 'RussoOne',
             fontWeight: FontWeight.bold,
             fontSize: 12,
             color: Colors.black,
@@ -558,10 +566,12 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
             ),
           ),
 
-          Text(
-            'Detail Kegiatan',
-            style:
-            GoogleFonts.russoOne(fontWeight: FontWeight.bold, fontSize: 18),
+          const Text(
+            'Exercise Detail',
+            style: TextStyle(
+                fontFamily: 'RussoOne',
+                fontWeight: FontWeight.bold,
+                fontSize: 18),
           ),
           const SizedBox(height: 16),
 
@@ -579,7 +589,8 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
               padding: const EdgeInsets.only(top: 6, left: 4),
               child: Text(
                 _nameError!,
-                style: GoogleFonts.russoOne(
+                style: const TextStyle(
+                  fontFamily: 'RussoOne',
                   color: const Color(0xFFE53935),
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -598,28 +609,28 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
             child: SegmentedButton<ExerciseType>(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? const Color(0xFF347433)
-                    : Colors.white),
+                    states.contains(MaterialState.selected)
+                        ? const Color(0xFF347433)
+                        : Colors.white),
                 foregroundColor: MaterialStateProperty.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? Colors.white
-                    : Colors.black),
+                    states.contains(MaterialState.selected)
+                        ? Colors.white
+                        : Colors.black),
                 side: MaterialStateProperty.all(
                     const BorderSide(color: Colors.black, width: 2)),
                 shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20))),
               ),
-              segments: [
+              segments: const [
                 ButtonSegment(
                   value: ExerciseType.repetition,
                   label: Text('Repetition',
-                      style: GoogleFonts.russoOne(fontSize: 12)),
+                      style: TextStyle(fontFamily: 'RussoOne', fontSize: 12)),
                 ),
                 ButtonSegment(
                   value: ExerciseType.duration,
                   label: Text('Duration',
-                      style: GoogleFonts.russoOne(fontSize: 12)),
+                      style: TextStyle(fontFamily: 'RussoOne', fontSize: 12)),
                 ),
               ],
               selected: {_type},
@@ -639,7 +650,7 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
           if (_type == ExerciseType.repetition) ...[
             const SizedBox(height: 8),
             _NumberField(
-              label: 'Repetisi per set',
+              label: 'Repetition/set',
               value: _reps,
               min: 1,
               max: 100,
@@ -650,7 +661,7 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
           if (_type == ExerciseType.duration) ...[
             const SizedBox(height: 8),
             _NumberField(
-              label: 'Durasi per set (detik)',
+              label: 'Duration/set (second)',
               value: _durationSeconds,
               min: 5,
               max: 600,
@@ -660,7 +671,7 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
 
           const SizedBox(height: 8),
           _NumberField(
-            label: 'Rest (detik)',
+            label: 'Rest (second)',
             value: _restSeconds,
             min: 0,
             max: 300,
@@ -682,13 +693,14 @@ class _ExerciseFormSheetState extends State<_ExerciseFormSheet> {
                 boxShadow: isPressed
                     ? []
                     : const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 4))
-                ],
+                        BoxShadow(color: Colors.black, offset: Offset(0, 4))
+                      ],
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   'SAVE',
-                  style: GoogleFonts.russoOne(
+                  style: TextStyle(
+                    fontFamily: 'RussoOne',
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     letterSpacing: 2,
@@ -758,13 +770,15 @@ class _StyledTextField extends StatelessWidget {
       ),
       child: TextFormField(
         initialValue: initialValue,
-        style: GoogleFonts.russoOne(fontSize: 16, color: Colors.black),
+        style: const TextStyle(
+            fontFamily: 'RussoOne', fontSize: 16, color: Colors.black),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: GoogleFonts.russoOne(fontSize: 16, color: Colors.black),
+          hintStyle: const TextStyle(
+              fontFamily: 'RussoOne', fontSize: 16, color: Colors.black),
           border: InputBorder.none,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         ),
         onChanged: onChanged,
       ),
@@ -805,7 +819,8 @@ class _NumberField extends StatelessWidget {
         children: [
           Expanded(
             child: Text(label,
-                style: GoogleFonts.russoOne(fontWeight: FontWeight.w500)),
+                style: const TextStyle(
+                    fontFamily: 'RussoOne', fontWeight: FontWeight.w500)),
           ),
           AnimatedButton(
             onTap: value > min ? () => onChanged(value - 1) : null,
@@ -819,8 +834,10 @@ class _NumberField extends StatelessWidget {
             child: Text(
               '$value',
               textAlign: TextAlign.center,
-              style: GoogleFonts.russoOne(
-                  fontWeight: FontWeight.bold, fontSize: 16),
+              style: const TextStyle(
+                  fontFamily: 'RussoOne',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
             ),
           ),
           AnimatedButton(

@@ -37,4 +37,12 @@ flutter:
   assets:
       - assets/images/
       - assets/sounds/
+  fonts:
+      -   family: RussoOne
+          fonts:
+              -   asset: assets/fonts/RussoOne-Regular.ttf
+
+      -   family: PressStart2P
+          fonts:
+              -   asset: assets/fonts/PressStart2P-Regular.ttf
 

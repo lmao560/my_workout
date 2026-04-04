@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_app/widgets/week_calender_widget.dart';
 import 'package:workout_app/widgets/animated_button.dart';
 
@@ -52,9 +51,10 @@ class ExerciseActiveScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       side: const BorderSide(color: Colors.black, width: 2),
                     ),
-                    title: Text(
+                    title: const Text(
                       'Keluar dari exercise?',
-                      style: GoogleFonts.russoOne(
+                      style: TextStyle(
+                        fontFamily: 'RussoOne',
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                       ),
@@ -69,9 +69,10 @@ class ExerciseActiveScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () => Navigator.pop(context, true),
-                        child: Text(
+                        child: const Text(
                           'Keluar',
-                          style: GoogleFonts.russoOne(color: Color(0xFFE53935)),
+                          style: TextStyle(
+                              fontFamily: 'RussoOne', color: Color(0xFFE53935)),
                         ),
                       ),
                     ],
@@ -85,10 +86,11 @@ class ExerciseActiveScreen extends StatelessWidget {
               },
             ),
             centerTitle: true,
-            title: Text(
+            title: const Text(
               'STARTING ',
               selectionColor: Colors.black,
-              style: GoogleFonts.pressStart2p(
+              style: TextStyle(
+                fontFamily: 'PressStart2P',
                 fontSize: 26,
                 letterSpacing: 1.5,
               ),
@@ -148,7 +150,8 @@ class ExerciseActiveScreen extends StatelessWidget {
                                   horizontal: 16, vertical: 12),
                               child: Text(
                                 workout.name,
-                                style: GoogleFonts.russoOne(
+                                style: const TextStyle(
+                                  fontFamily: 'RussoOne',
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -176,7 +179,8 @@ class ExerciseActiveScreen extends StatelessWidget {
                                 isRepetition
                                     ? '${progress.exercise.name}  ${progress.exercise.reps} × ${progress.exercise.sets}'
                                     : '${progress.exercise.name}  × ${progress.exercise.sets}',
-                                style: GoogleFonts.russoOne(
+                                style: const TextStyle(
+                                  fontFamily: 'RussoOne',
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                   color: Colors.black,
@@ -247,8 +251,9 @@ class _RemainingSetsBadge extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Sisa Set',
-          style: GoogleFonts.russoOne(
+          'Remaining Set',
+          style: TextStyle(
+            fontFamily: 'RussoOne',
             fontWeight: FontWeight.bold,
             fontSize: 13,
             color: Colors.black.withOpacity(0.5),
@@ -283,7 +288,8 @@ class _RemainingSetsBadge extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           '$remainingSets',
-          style: GoogleFonts.russoOne(
+          style: const TextStyle(
+            fontFamily: 'RussoOne',
             fontWeight: FontWeight.bold,
             fontSize: 48,
             color: Colors.black,
@@ -364,9 +370,10 @@ class _CelebrationViewState extends State<_CelebrationView>
               ),
               child: Text(
                 widget.exercise.type == ExerciseType.repetition
-                    ? '${widget.exercise.sets} sets  ×  ${widget.exercise.reps} reps selesai!'
-                    : '${widget.exercise.sets} sets  ×  ${widget.exercise.duration!.inSeconds}s selesai!',
-                style: GoogleFonts.russoOne(
+                    ? '${widget.exercise.sets} sets  ×  ${widget.exercise.reps} reps finished!'
+                    : '${widget.exercise.sets} sets  ×  ${widget.exercise.duration!.inSeconds}s finished!',
+                style: const TextStyle(
+                  fontFamily: 'RussoOne',
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                   color: Colors.black,
@@ -486,7 +493,8 @@ class _RetroPhotoFrame extends StatelessWidget {
             child: Text(
               label,
               textAlign: TextAlign.center,
-              style: GoogleFonts.russoOne(
+              style: const TextStyle(
+                fontFamily: 'RussoOne',
                 color: Color(0xFFFFC107),
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -564,7 +572,8 @@ class _FlipCard extends StatelessWidget {
       child: Center(
         child: Text(
           value,
-          style: GoogleFonts.russoOne(
+          style: const TextStyle(
+            fontFamily: 'RussoOne',
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 36,
@@ -621,10 +630,11 @@ class _ActionButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.black, width: 2),
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 'REST...',
-                style: GoogleFonts.russoOne(
+                style: TextStyle(
+                  fontFamily: 'RussoOne',
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                   letterSpacing: 2,
@@ -649,10 +659,11 @@ class _ActionButton extends StatelessWidget {
                         BoxShadow(color: Colors.black, offset: Offset(0, 4)),
                       ],
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   'SKIP REST',
-                  style: GoogleFonts.russoOne(
+                  style: TextStyle(
+                    fontFamily: 'RussoOne',
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     letterSpacing: 2,
@@ -689,7 +700,8 @@ class _ActionButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.russoOne(
+            style: const TextStyle(
+              fontFamily: 'RussoOne',
               fontWeight: FontWeight.bold,
               fontSize: 16,
               letterSpacing: 2,
